@@ -8,7 +8,7 @@
     export const appTitle: String = 'Two Small Onions';
 </script>
 
-<div class="flex h-screen bg-base-100">
+<div class="flex h-full bg-base-100">
     <div class="drawer lg:drawer-open">
         <!-- Drawer trigger for mobile -->
         <input type="checkbox" id="sidebar-drawer" class="drawer-toggle" />
@@ -26,7 +26,7 @@
             </div>
 
             <!-- Main content -->
-            <div class="flex-1 p-8">
+            <div class="flex-1 p-4 md:p-8">
                 <slot />
             </div>
         </div>
