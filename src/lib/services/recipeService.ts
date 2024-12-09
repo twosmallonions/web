@@ -6,7 +6,7 @@ export const getRecipes = async (
 ) => {
     const resp = await fetch('/api/recipe');
     if (!resp.ok) {
-        console.log(`failed to fetch recipes: ${resp.status}\n${await resp.text()}`)
+        console.log(`failed to fetch recipes: ${resp.status}\n${await resp.text()}`);
         return [];
     }
     const recipes: Recipe[] = await resp.json();

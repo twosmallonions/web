@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="flex items-center justify-between">
-                    <a href="#" class="link link-primary text-sm"
+                    <a href="/" class="link link-primary text-sm"
                         >Need to import multiple recipes?</a
                     >
                     <button class="btn btn-primary">Import Recipe</button>

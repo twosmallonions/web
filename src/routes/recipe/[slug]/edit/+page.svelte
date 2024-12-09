@@ -44,14 +44,14 @@
             dataIdAttr: 'data-id',
             onSort() {
                 const ingredientMap = new Map(
-                    updatedRecipe.ingredients.map(ingredient => [ingredient.id, ingredient])
+                    updatedRecipe.ingredients.map((ingredient) => [ingredient.id, ingredient])
                 );
-                updatedRecipe.ingredients = ingredientsSortable.toArray()
-                .map(id => ingredientMap.get(id))
-                .filter((ingredient): ingredient is Ingredient => ingredient !== undefined);
-            },
+                updatedRecipe.ingredients = ingredientsSortable
+                    .toArray()
+                    .map((id) => ingredientMap.get(id))
+                    .filter((ingredient): ingredient is Ingredient => ingredient !== undefined);
+            }
         });
-
 
         let stepsSortable = Sortable.create(stepElements, {
             animation: dragAnimationDuration,
@@ -59,15 +59,13 @@
             handle: '#step-handle',
             dataIdAttr: 'data-id',
             onSort() {
-                const stepsMap = new Map(
-                    updatedRecipe.steps.map(step => [step.id, step])
-                );
-                updatedRecipe.steps = stepsSortable.toArray()
-                .map(id => stepsMap.get(id))
-                .filter((ingredient): ingredient is Step => ingredient !== undefined);
-            },
+                const stepsMap = new Map(updatedRecipe.steps.map((step) => [step.id, step]));
+                updatedRecipe.steps = stepsSortable
+                    .toArray()
+                    .map((id) => stepsMap.get(id))
+                    .filter((ingredient): ingredient is Step => ingredient !== undefined);
+            }
         });
-
     });
 </script>
 
@@ -120,7 +118,7 @@
                 <h2 class="mb-2 flex place-content-between items-center">
                     <div class="flex items-center gap-2">
                         <ListIcon />
-                        <span class="font-semibold text-2xl">Ingredients</span>
+                        <span class="text-2xl font-semibold">Ingredients</span>
                     </div>
 
                     <button
@@ -169,8 +167,7 @@
                     {/each}
                 </div>
 
-                <div class="flex place-content-center">
-                </div>
+                <div class="flex place-content-center"></div>
             </div>
         </div>
 
@@ -189,7 +186,7 @@
                             <input type="checkbox" checked={true} />
                             <div class="collapse-title">
                                 <div class="flex place-content-between">
-                                    <div class="flex gap-3 z-50">
+                                    <div class="z-50 flex gap-3">
                                         <button id="step-handle" class="z-50">
                                             <GripVertical />
                                         </button>
@@ -255,24 +252,6 @@
     <div class="prose mb-8 max-w-none">
         <textarea class="textarea textarea-bordered w-full" bind:value={updatedRecipe.description}
         ></textarea>
-    </div>
-{/snippet}
-
-{#snippet notes()}
-    <div class="alert alert-info mb-6">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 shrink-0 stroke-current"
-            fill="none"
-            viewBox="0 0 24 24"
-            ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            /></svg
-        >
-        <span>{recipe.note}</span>
     </div>
 {/snippet}
 

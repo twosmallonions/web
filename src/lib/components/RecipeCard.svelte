@@ -2,7 +2,6 @@
     import { likeRecipeRequest } from '$lib/services/recipeService';
     import type { Recipe } from '$lib/types/recipe';
     import { Heart } from 'lucide-svelte';
-    import { spring } from 'svelte/motion';
 
     export const likeRecipe = async () => {
         liked = !liked;

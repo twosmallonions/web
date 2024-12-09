@@ -1,6 +1,6 @@
 <script lang="ts">
     const { data } = $props();
-    const { recipeSlug, recipe } = data;
+    const { recipe } = data;
 
     import Ingredients from '$lib/components/recipe/Ingredients.svelte';
     import {
@@ -9,11 +9,9 @@
         ClockIcon,
         CookingPotIcon,
         ExternalLinkIcon,
-        ListIcon,
         PencilIcon,
         ScrollTextIcon,
         TimerIcon,
-        UserIcon,
         UsersIcon,
         UtensilsCrossedIcon,
         ChevronDown,
@@ -53,9 +51,9 @@
     <header class="mb-2">
         <div class="mb-6 flex items-start justify-between">
             <h1 class="text-4xl font-bold">{recipe.title}</h1>
-            <button class="btn btn-ghost" onclick={() => edit = !edit}>
+            <button class="btn btn-ghost" onclick={() => (edit = !edit)}>
                 <PencilIcon class="mr-2 h-5 w-5" />
-                
+
                 {edit ? 'Save Recipe' : 'Edit Recipe'}
             </button>
         </div>
@@ -185,24 +183,6 @@
                 {/if}
             </button>
         {/if}
-    </div>
-{/snippet}
-
-{#snippet notes()}
-    <div class="alert alert-info mb-6">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 shrink-0 stroke-current"
-            fill="none"
-            viewBox="0 0 24 24"
-            ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            /></svg
-        >
-        <span>{recipe.note}</span>
     </div>
 {/snippet}
 

@@ -5,7 +5,7 @@
 
     import { Home, Cloud, Settings, Menu, CookingPot, Plus } from 'lucide-svelte';
 
-    export const appTitle: String = 'Two Small Onions';
+    export const appTitle: string = 'Two Small Onions';
 </script>
 
 <div class="flex h-full bg-base-100">

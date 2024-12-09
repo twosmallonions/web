@@ -1,7 +1,4 @@
 <script lang="ts">
-    import type { ComponentIcon } from 'lucide-svelte';
-    import type { Component } from 'svelte';
-
     export let target: string;
     export let text: string;
     export let icon;
