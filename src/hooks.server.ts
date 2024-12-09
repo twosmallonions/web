@@ -2,7 +2,6 @@ import { error, redirect, type Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
     if (event.url.pathname.startsWith('/auth')) {
-        console.log('auth path');
         return resolve(event);
     }
     const authCookie = event.cookies.get('__Host-SESSION') ?? null;
@@ -10,8 +9,6 @@ export const handle: Handle = async ({ event, resolve }) => {
         return redirect(303, '/auth');
     }
 
-    //console.log(event);
-    console.log('here');
     await event
         .fetch('/auth/userinfo')
         .then((res) => {

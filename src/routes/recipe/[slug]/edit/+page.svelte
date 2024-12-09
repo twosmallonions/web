@@ -1,8 +1,7 @@
 <script lang="ts">
-    import type { FullRecipe } from '$lib/types/recipe.js';
-
-    const { data } = $props();
-    const { recipeSlug, recipe } = data;
+    import type { FullRecipe, Ingredient, Step } from '$lib/types/recipe.js';
+    import Sortable from 'sortablejs';
+    import { onMount } from 'svelte';
 
     import {
         CalendarClockIcon,
@@ -11,18 +10,65 @@
         CookingPotIcon,
         ExternalLinkIcon,
         ListIcon,
-        PencilIcon,
         ScrollTextIcon,
         TimerIcon,
-        UserIcon,
         UsersIcon,
         UtensilsCrossedIcon,
-        ChevronDown,
-        ChevronUp,
-        Save
+        Save,
+        Plus,
+        Trash2,
+        GripVertical
     } from 'lucide-svelte';
 
-    var updatedRecipe: FullRecipe = structuredClone(recipe);
+    const dragAnimationDuration = 150;
+
+    const { data } = $props();
+    const { recipeSlug, recipe } = data;
+
+    let ingredients: HTMLElement;
+    let stepElements: HTMLElement;
+
+    let updatedRecipe: FullRecipe = $state(structuredClone(recipe));
+    const removeStep = (index: number) => {
+        updatedRecipe.steps = [
+            ...updatedRecipe.steps.slice(0, index),
+            ...updatedRecipe.steps.slice(index + 1)
+        ];
+    };
+
+    onMount(async () => {
+        let ingredientsSortable = Sortable.create(ingredients, {
+            animation: dragAnimationDuration,
+            group: 'ingredients',
+            handle: '#ingredient-handle',
+            dataIdAttr: 'data-id',
+            onSort() {
+                const ingredientMap = new Map(
+                    updatedRecipe.ingredients.map(ingredient => [ingredient.id, ingredient])
+                );
+                updatedRecipe.ingredients = ingredientsSortable.toArray()
+                .map(id => ingredientMap.get(id))
+                .filter((ingredient): ingredient is Ingredient => ingredient !== undefined);
+            },
+        });
+
+
+        let stepsSortable = Sortable.create(stepElements, {
+            animation: dragAnimationDuration,
+            group: 'steps',
+            handle: '#step-handle',
+            dataIdAttr: 'data-id',
+            onSort() {
+                const stepsMap = new Map(
+                    updatedRecipe.steps.map(step => [step.id, step])
+                );
+                updatedRecipe.steps = stepsSortable.toArray()
+                .map(id => stepsMap.get(id))
+                .filter((ingredient): ingredient is Step => ingredient !== undefined);
+            },
+        });
+
+    });
 </script>
 
 <div class="container mx-auto md:px-4 md:py-8">
@@ -40,7 +86,7 @@
                 class="input input-bordered w-full text-4xl font-bold"
                 bind:value={updatedRecipe.title}
             />
-            <a href="/recipe/{recipeSlug}/edit" class="btn btn-ghost">
+            <a href="/recipe/{recipeSlug}/edit" class="btn btn-outline btn-primary">
                 <Save class="mr-2 h-5 w-5" />
                 Save Recipe
             </a>
@@ -71,29 +117,59 @@
         <!-- Ingredients Column -->
         <div class="lg:col-span-1">
             <div class="sticky top-4">
-                <h2 class="mb-4 flex items-center gap-2 text-2xl font-semibold">
-                    <ListIcon class="h-6 w-6" />
-                    Ingredients
+                <h2 class="mb-2 flex place-content-between items-center">
+                    <div class="flex items-center gap-2">
+                        <ListIcon />
+                        <span class="font-semibold text-2xl">Ingredients</span>
+                    </div>
+
+                    <button
+                        onclick={() =>
+                            (updatedRecipe.ingredients = [
+                                ...updatedRecipe.ingredients,
+                                {
+                                    heading: false,
+                                    id: `new-${updatedRecipe.ingredients.length}`,
+                                    notes: ''
+                                }
+                            ])}
+                    >
+                        <Plus />
+                    </button>
                 </h2>
-                <div class="">
-                    {#each recipe.ingredients as ingredient, index}
+                <div bind:this={ingredients}>
+                    {#each updatedRecipe.ingredients as ingredient, index (ingredient.id)}
                         {#if ingredient.heading}
                             <h3 class="mt-8 text-xl font-semibold first:mt-0">
                                 {ingredient.notes}
                             </h3>
                         {:else}
                             <div
-                                class="z-10 flex cursor-pointer gap-2 rounded-2xl p-3 pl-4 text-left hover:bg-base-300"
+                                data-id={ingredient.id}
+                                class="z-10 flex cursor-pointer flex-row gap-2 rounded-2xl p-3 pl-4 text-left"
                             >
-                                <input
-                                    type="checkbox"
-                                    class="checkbox-primary checkbox"
-                                    id={`ingredientCheckbox${index}`}
-                                />
-                                <label for={`ingredientCheckbox${index}`}>{ingredient.notes}</label>
+                                <label class="input input-bordered flex w-full items-center gap-2">
+                                    <button id="ingredient-handle">
+                                        <GripVertical />
+                                    </button>
+                                    <input type="text" class="grow" bind:value={ingredient.notes} />
+                                    <button
+                                        class="text-red-500 hover:text-red-700"
+                                        onclick={() =>
+                                            (updatedRecipe.ingredients = [
+                                                ...updatedRecipe.ingredients.slice(0, index),
+                                                ...updatedRecipe.ingredients.slice(index + 1)
+                                            ])}
+                                    >
+                                        <Trash2 />
+                                    </button>
+                                </label>
                             </div>
                         {/if}
                     {/each}
+                </div>
+
+                <div class="flex place-content-center">
                 </div>
             </div>
         </div>
@@ -104,34 +180,33 @@
                 <ScrollTextIcon class="h-6 w-6" />
                 Instructions
             </h2>
-            <div class="space-y-6">
-                {#each recipe.steps as step, index}
+            <div class="space-y-6" bind:this={stepElements}>
+                {#each updatedRecipe.steps as step, index (step.id)}
                     {#if step.heading}
                         <h3 class="mt-8 text-xl font-semibold first:mt-0">{step.description}</h3>
                     {:else}
-                        <div class="collapse collapse-arrow bg-base-200 hover:bg-base-300">
+                        <div class="collapse collapse-arrow bg-base-200" data-id={step.id}>
                             <input type="checkbox" checked={true} />
                             <div class="collapse-title">
-                                <h4 class="card-title">Step {index + 1}</h4>
+                                <div class="flex place-content-between">
+                                    <div class="flex gap-3 z-50">
+                                        <button id="step-handle" class="z-50">
+                                            <GripVertical />
+                                        </button>
+                                        <h4 class="card-title">Step {index + 1}</h4>
+                                    </div>
+                                    <button
+                                        class="z-50 text-red-500 hover:text-red-700"
+                                        onclick={() => removeStep(index)}><Trash2 /></button
+                                    >
+                                </div>
                             </div>
                             <div class="collapse-content">
-                                <p>{step.description}</p>
-                                {#if step.linkedIngredients && step.linkedIngredients.length > 0}
-                                    <div class="mt-4">
-                                        <h5 class="mb-2 text-sm font-semibold">
-                                            Ingredients for this step:
-                                        </h5>
-                                        <ul class="list-inside list-disc space-y-1">
-                                            {#each step.linkedIngredients as linkedIng}
-                                                <li>
-                                                    {recipe.ingredients.find(
-                                                        (ing) => ing.id === linkedIng.ingredientId
-                                                    )?.notes}
-                                                </li>
-                                            {/each}
-                                        </ul>
-                                    </div>
-                                {/if}
+                                <textarea
+                                    bind:value={step.description}
+                                    class="textarea textarea-bordered w-full"
+                                    rows="4"
+                                ></textarea>
                             </div>
                         </div>
                     {/if}
@@ -150,6 +225,10 @@
             <div class="flex items-center gap-2">
                 <CalendarClockIcon class="h-4 w-4" />
                 Last modified: {new Date(recipe.modified).toLocaleDateString()}
+            </div>
+            <div class="flex items-center gap-2">
+                <ExternalLinkIcon class="h-4 w-4" />
+                <a href={recipe.originalUrl} target="_blank">Original Recipe</a>
             </div>
         </div>
     </footer>
