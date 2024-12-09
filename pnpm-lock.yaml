@@ -9,88 +9,88 @@ importers:
   .:
     devDependencies:
       '@playwright/test':
-        specifier: ^1.45.3
+        specifier: 1.48.1
         version: 1.48.1
       '@sveltejs/adapter-auto':
-        specifier: ^3.0.0
+        specifier: 3.3.1
         version: 3.3.1(@sveltejs/kit@2.7.3(@sveltejs/vite-plugin-svelte@4.0.0(svelte@5.1.2)(vite@5.4.10))(svelte@5.1.2)(vite@5.4.10))
       '@sveltejs/adapter-node':
-        specifier: ^5.2.9
+        specifier: 5.2.9
         version: 5.2.9(@sveltejs/kit@2.7.3(@sveltejs/vite-plugin-svelte@4.0.0(svelte@5.1.2)(vite@5.4.10))(svelte@5.1.2)(vite@5.4.10))
       '@sveltejs/kit':
-        specifier: ^2.0.0
+        specifier: 2.7.3
         version: 2.7.3(@sveltejs/vite-plugin-svelte@4.0.0(svelte@5.1.2)(vite@5.4.10))(svelte@5.1.2)(vite@5.4.10)
       '@sveltejs/vite-plugin-svelte':
-        specifier: ^4.0.0
+        specifier: 4.0.0
         version: 4.0.0(svelte@5.1.2)(vite@5.4.10)
       '@tailwindcss/forms':
-        specifier: ^0.5.9
+        specifier: 0.5.9
         version: 0.5.9(tailwindcss@3.4.14)
       '@tailwindcss/typography':
-        specifier: ^0.5.15
+        specifier: 0.5.15
         version: 0.5.15(tailwindcss@3.4.14)
       '@types/eslint':
-        specifier: ^9.6.0
+        specifier: 9.6.1
         version: 9.6.1
       '@types/sortablejs':
-        specifier: ^1.15.8
+        specifier: 1.15.8
         version: 1.15.8
       autoprefixer:
-        specifier: ^10.4.20
+        specifier: 10.4.20
         version: 10.4.20(postcss@8.4.47)
       daisyui:
-        specifier: ^4.12.13
+        specifier: 4.12.13
         version: 4.12.13(postcss@8.4.47)
       eslint:
-        specifier: ^9.7.0
+        specifier: 9.13.0
         version: 9.13.0(jiti@1.21.6)
       eslint-config-prettier:
-        specifier: ^9.1.0
+        specifier: 9.1.0
         version: 9.1.0(eslint@9.13.0(jiti@1.21.6))
       eslint-plugin-import:
-        specifier: ^2.31.0
+        specifier: 2.31.0
         version: 2.31.0(@typescript-eslint/parser@8.11.0(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3))(eslint@9.13.0(jiti@1.21.6))
       eslint-plugin-svelte:
-        specifier: ^2.36.0
+        specifier: 2.46.0
         version: 2.46.0(eslint@9.13.0(jiti@1.21.6))(svelte@5.1.2)
       globals:
-        specifier: ^15.0.0
+        specifier: 15.11.0
         version: 15.11.0
       lucide-svelte:
-        specifier: ^0.453.0
+        specifier: 0.453.0
         version: 0.453.0(svelte@5.1.2)
       prettier:
-        specifier: ^3.3.2
+        specifier: 3.3.3
         version: 3.3.3
       prettier-plugin-svelte:
-        specifier: ^3.2.6
+        specifier: 3.2.7
         version: 3.2.7(prettier@3.3.3)(svelte@5.1.2)
       prettier-plugin-tailwindcss:
-        specifier: ^0.6.5
+        specifier: 0.6.8
         version: 0.6.8(prettier-plugin-svelte@3.2.7(prettier@3.3.3)(svelte@5.1.2))(prettier@3.3.3)
       sortablejs:
-        specifier: ^1.15.6
+        specifier: 1.15.6
         version: 1.15.6
       svelte:
-        specifier: ^5.0.0
+        specifier: 5.1.2
         version: 5.1.2
       svelte-check:
-        specifier: ^4.0.0
+        specifier: 4.0.5
         version: 4.0.5(picomatch@4.0.2)(svelte@5.1.2)(typescript@5.6.3)
       tailwindcss:
-        specifier: ^3.4.9
+        specifier: 3.4.14
         version: 3.4.14
       typescript:
-        specifier: ^5.0.0
+        specifier: 5.6.3
         version: 5.6.3
       typescript-eslint:
-        specifier: ^8.0.0
+        specifier: 8.11.0
         version: 8.11.0(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3)
       vite:
-        specifier: ^5.0.3
+        specifier: 5.4.10
         version: 5.4.10
       vitest:
-        specifier: ^2.0.4
+        specifier: 2.1.3
         version: 2.1.3
 
 packages:
