@@ -5,7 +5,7 @@
     const {
         steps,
         deleteStep,
-        sortSteps,
+        //sortSteps,
         addStep,
         edit = false
     }: {
@@ -13,7 +13,7 @@
         deleteStep: (index: number) => void;
         edit?: boolean;
         addStep: () => void;
-        sortSteps: (ids: string[]) => void;
+        //sortSteps: (ids: string[]) => void;
     } = $props();
 </script>
 
@@ -65,6 +65,7 @@
         </div>
     </div>
     <div class="collapse-content">
-        <textarea class="textarea textarea-bordered w-full" rows="4" bind:value={step.description}></textarea>
+        <textarea class="textarea textarea-bordered w-full" rows="4" bind:value={step.description}
+        ></textarea>
     </div>
 {/snippet}

@@ -12,7 +12,6 @@
         CookingPotIcon,
         ExternalLinkIcon,
         PencilIcon,
-        ScrollTextIcon,
         TimerIcon,
         UsersIcon,
         UtensilsCrossedIcon,
@@ -33,7 +32,6 @@
     const updatedRecipe = $state(structuredClone(recipe));
 
     let targetRecipe = $derived(edit ? updatedRecipe : recipe);
-
 
     const deleteIngredient = (index: number) => {
         updatedRecipe.ingredients = [
@@ -58,7 +56,6 @@
             .map((id) => ingredientMap.get(id))
             .filter((ingredient): ingredient is Ingredient => ingredient !== undefined);
     };
-
 
     const deleteStep = (index: number) => {
         updatedRecipe.steps = [
@@ -148,7 +145,7 @@
 
         <!-- Steps Column -->
         <div class="lg:col-span-2">
-            <Steps steps={targetRecipe.steps} {edit} {deleteStep} {addStep} {sortSteps}/>
+            <Steps steps={targetRecipe.steps} {edit} {deleteStep} {addStep} {sortSteps} />
         </div>
     </div>
 
