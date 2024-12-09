@@ -36,22 +36,6 @@
         ];
     };
 
-    onMount(async () => {
-        let ingredientsSortable = Sortable.create(ingredients, {
-            animation: dragAnimationDuration,
-            group: 'ingredients',
-            handle: '#ingredient-handle',
-            dataIdAttr: 'data-id',
-            onSort() {
-                const ingredientMap = new Map(
-                    updatedRecipe.ingredients.map((ingredient) => [ingredient.id, ingredient])
-                );
-                updatedRecipe.ingredients = ingredientsSortable
-                    .toArray()
-                    .map((id) => ingredientMap.get(id))
-                    .filter((ingredient): ingredient is Ingredient => ingredient !== undefined);
-            }
-        });
 
         let stepsSortable = Sortable.create(stepElements, {
             animation: dragAnimationDuration,
@@ -79,11 +63,6 @@
     </div>
     <header class="mb-2">
         <div class="mb-6 flex items-start justify-between">
-            <input
-                type="text"
-                class="input input-bordered w-full text-4xl font-bold"
-                bind:value={updatedRecipe.title}
-            />
             <a href="/recipe/{recipeSlug}/edit" class="btn btn-outline btn-primary">
                 <Save class="mr-2 h-5 w-5" />
                 Save Recipe

@@ -3,6 +3,8 @@
     const { recipe } = data;
 
     import Ingredients from '$lib/components/recipe/Ingredients.svelte';
+    import Steps from '$lib/components/recipe/Steps.svelte';
+    import type { Ingredient, Step } from '$lib/types/recipe.js';
     import {
         CalendarClockIcon,
         CalendarPlusIcon,
@@ -32,11 +34,55 @@
 
     let targetRecipe = $derived(edit ? updatedRecipe : recipe);
 
+
     const deleteIngredient = (index: number) => {
         updatedRecipe.ingredients = [
             ...updatedRecipe.ingredients.slice(0, index),
             ...updatedRecipe.ingredients.slice(index + 1)
         ];
+    };
+
+    const addIngredient = () => {
+        updatedRecipe.ingredients.push({
+            heading: false,
+            id: `temp-${Math.floor(Math.random() * 50)}`,
+            notes: ''
+        });
+    };
+
+    const sortIngredients = (ids: string[]) => {
+        const ingredientMap = new Map(
+            updatedRecipe.ingredients.map((ingredient) => [ingredient.id, ingredient])
+        );
+        updatedRecipe.ingredients = ids
+            .map((id) => ingredientMap.get(id))
+            .filter((ingredient): ingredient is Ingredient => ingredient !== undefined);
+    };
+
+
+    const deleteStep = (index: number) => {
+        updatedRecipe.steps = [
+            ...updatedRecipe.steps.slice(0, index),
+            ...updatedRecipe.steps.slice(index + 1)
+        ];
+    };
+
+    const addStep = () => {
+        updatedRecipe.steps.push({
+            heading: false,
+            id: `temp-${Math.floor(Math.random() * 50)}`,
+            description: '',
+            linkedIngredients: []
+        });
+    };
+
+    const sortSteps = (ids: string[]) => {
+        const ingredientMap = new Map(
+            updatedRecipe.steps.map((ingredient) => [ingredient.id, ingredient])
+        );
+        updatedRecipe.steps = ids
+            .map((id) => ingredientMap.get(id))
+            .filter((ingredient): ingredient is Step => ingredient !== undefined);
     };
 </script>
 
@@ -49,8 +95,8 @@
         {/if}
     </div>
     <header class="mb-2">
-        <div class="mb-6 flex items-start justify-between">
-            <h1 class="text-4xl font-bold">{recipe.title}</h1>
+        <div class="mb-6 flex items-start justify-between gap-3">
+            {@render recipeTitle()}
             <button class="btn btn-ghost" onclick={() => (edit = !edit)}>
                 <PencilIcon class="mr-2 h-5 w-5" />
 
@@ -58,6 +104,7 @@
             </button>
         </div>
 
+        <!-- TODO: make this nicer -->
         <div class="block gap-2 sm:grid sm:grid-cols-3">
             <div class="sm:col-span-2">
                 {#if recipe.description}
@@ -89,49 +136,19 @@
         <!-- Ingredients Column -->
         <div class="lg:col-span-1">
             <div class="sticky top-4">
-                <Ingredients ingredients={targetRecipe.ingredients} {deleteIngredient} {edit} />
+                <Ingredients
+                    ingredients={targetRecipe.ingredients}
+                    {deleteIngredient}
+                    {edit}
+                    {addIngredient}
+                    {sortIngredients}
+                />
             </div>
         </div>
 
         <!-- Steps Column -->
         <div class="lg:col-span-2">
-            <h2 class="mb-4 flex items-center gap-2 text-2xl font-semibold">
-                <ScrollTextIcon class="h-6 w-6" />
-                Instructions
-            </h2>
-            <div class="space-y-6">
-                {#each recipe.steps as step, index}
-                    {#if step.heading}
-                        <h3 class="mt-8 text-xl font-semibold first:mt-0">{step.description}</h3>
-                    {:else}
-                        <div class="collapse collapse-arrow bg-base-200 hover:bg-base-300">
-                            <input type="checkbox" checked={true} />
-                            <div class="collapse-title">
-                                <h4 class="card-title">Step {index + 1}</h4>
-                            </div>
-                            <div class="collapse-content">
-                                <p>{step.description}</p>
-                                {#if step.linkedIngredients && step.linkedIngredients.length > 0}
-                                    <div class="mt-4">
-                                        <h5 class="mb-2 text-sm font-semibold">
-                                            Ingredients for this step:
-                                        </h5>
-                                        <ul class="list-inside list-disc space-y-1">
-                                            {#each step.linkedIngredients as linkedIng}
-                                                <li>
-                                                    {recipe.ingredients.find(
-                                                        (ing) => ing.id === linkedIng.ingredientId
-                                                    )?.notes}
-                                                </li>
-                                            {/each}
-                                        </ul>
-                                    </div>
-                                {/if}
-                            </div>
-                        </div>
-                    {/if}
-                {/each}
-            </div>
+            <Steps steps={targetRecipe.steps} {edit} {deleteStep} {addStep} {sortSteps}/>
         </div>
     </div>
 
@@ -149,6 +166,18 @@
         </div>
     </footer>
 </div>
+
+{#snippet recipeTitle()}
+    {#if edit}
+        <input
+            type="text"
+            class="input input-bordered w-full text-4xl font-bold"
+            bind:value={updatedRecipe.title}
+        />
+    {:else}
+        <h1 class="text-4xl font-bold">{recipe.title}</h1>
+    {/if}
+{/snippet}
 
 {#snippet coverImage()}
     <div class="max-h-128 overflow-hidden rounded-lg">
