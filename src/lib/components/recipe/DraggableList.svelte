@@ -1,4 +1,5 @@
 <script lang="ts" generics="T extends { id: string }">
+    import { getRandomNumber } from '$lib/util';
     import Sortable from 'sortablejs';
     import { onMount, type Snippet } from 'svelte';
 
@@ -27,7 +28,7 @@
     onMount(() => {
         let sortable = Sortable.create(listElement, {
             animation: dragAnimationDuration,
-            group: 'sortable-items',
+            group: `sortable-items-${getRandomNumber(50)}`,
             handle: '#item-handle',
             dataIdAttr: 'data-id',
             onSort: () => sortItems(sortable.toArray())
