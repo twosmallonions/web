@@ -34,7 +34,7 @@
         "lucide-svelte": "0.453.0",
         "prettier": "3.3.3",
         "prettier-plugin-svelte": "3.2.7",
-        "prettier-plugin-tailwindcss": "0.6.8",
+        "prettier-plugin-tailwindcss": "0.6.9",
         "sortablejs": "1.15.6",
         "svelte": "5.1.2",
         "svelte-check": "4.1.1",
