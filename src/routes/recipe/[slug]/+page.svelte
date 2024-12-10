@@ -179,7 +179,7 @@
 {#snippet coverImage()}
     <div class="max-h-128 overflow-hidden rounded-lg">
         <picture class="object-cover object-top">
-            {#each recipe.coverImage as url}
+            {#each recipe.coverImage as url, index (index)}
                 {@const extension = url.split('.').pop().split('?')[0].toLowerCase()}
                 {#if extension === 'avif'}
                     <source srcset={url} type="image/avif" />
