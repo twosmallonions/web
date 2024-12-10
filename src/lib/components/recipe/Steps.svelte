@@ -1,8 +1,8 @@
 <script lang="ts">
     import type { Step } from '$lib/types/recipe';
-    import { GripVertical, Plus, ScrollTextIcon, Trash2 } from 'lucide-svelte';
-    import Sortable from 'sortablejs';
-    import { onMount } from 'svelte';
+    import { GripVertical, ScrollTextIcon, Trash2 } from 'lucide-svelte';
+    import RecipeListHeading from './RecipeListHeading.svelte';
+    import DraggableList from './DraggableList.svelte';
 
     const {
         steps,
@@ -19,41 +19,18 @@
         sortSteps: (ids: string[]) => void;
         dragAnimationDuration?: number;
     } = $props();
-
-    let stepElement: HTMLElement;
-
-    onMount(async () => {
-        let stepSortable = Sortable.create(stepElement, {
-            animation: dragAnimationDuration,
-            group: 'ingredients',
-            handle: '#step-handle',
-            dataIdAttr: 'data-id',
-            onSort() {
-                sortSteps(stepSortable.toArray());
-            }
-        });
-    });
 </script>
 
-<h2 class="mb-4 flex place-content-between items-center gap-2">
-    <div class="flex items-center gap-2 text-2xl font-semibold">
-        <ScrollTextIcon class="h-6 w-6" />
-        Instructions
-    </div>
-    {#if edit}
-        <button class="hover:text-gray-500" onclick={addStep}>
-            <Plus />
-        </button>
-    {/if}
-</h2>
-<div class="space-y-6" bind:this={stepElement}>
-    {#each steps as step, index (step.id)}
-        <div class="collapse collapse-arrow bg-base-200 hover:bg-base-300" data-id={step.id}>
-            <input type="checkbox" checked={true} />
-            {@render (edit ? editStep : normalStep)(step, index)}
-        </div>
-    {/each}
-</div>
+{#snippet heading()}
+    <RecipeListHeading TitleIcon={ScrollTextIcon} {edit} title="Instructions" addItem={addStep} />
+{/snippet}
+
+{#snippet stepListEntry(step: Step, index: number, edit: boolean)}
+    <li class="collapse collapse-arrow bg-base-200 hover:bg-base-300" data-id={step.id}>
+        <input type="checkbox" checked={true} />
+        {@render (edit ? editStep : normalStep)(step, index)}
+    </li>
+{/snippet}
 
 {#snippet normalStep(step: Step, index: number)}
     <div class="collapse-title">
@@ -68,7 +45,7 @@
     <div class="collapse-title">
         <div class="flex place-content-between">
             <div class="z-50 flex gap-3">
-                <button id="step-handle" class="z-50">
+                <button id="item-handle" class="z-50">
                     <GripVertical />
                 </button>
                 <h4 class="card-title">Step {index + 1}</h4>
@@ -83,3 +60,13 @@
         ></textarea>
     </div>
 {/snippet}
+
+<DraggableList
+    {heading}
+    items={steps}
+    sortItems={sortSteps}
+    itemSnippet={stepListEntry}
+    {edit}
+    {dragAnimationDuration}
+    itemContainerClass="space-y-6"
+/>

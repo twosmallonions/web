@@ -1,8 +1,8 @@
 <script lang="ts">
     import type { Ingredient } from '$lib/types/recipe';
-    import { GripVertical, ListIcon, Trash2, Plus } from 'lucide-svelte';
-    import Sortable from 'sortablejs';
-    import { onMount } from 'svelte';
+    import { GripVertical, ListIcon, Trash2 } from 'lucide-svelte';
+    import DraggableList from './DraggableList.svelte';
+    import RecipeListHeading from './RecipeListHeading.svelte';
     let {
         ingredients,
         edit = false,
@@ -18,43 +18,20 @@
         sortIngredients: (ids: string[]) => void;
         dragAnimationDuration?: number;
     } = $props();
-
-    let ingredientElement: HTMLElement;
-
-    onMount(async () => {
-        let ingredientsSortable = Sortable.create(ingredientElement, {
-            animation: dragAnimationDuration,
-            group: 'ingredients',
-            handle: '#ingredient-handle',
-            dataIdAttr: 'data-id',
-            onSort() {
-                sortIngredients(ingredientsSortable.toArray());
-            }
-        });
-    });
 </script>
 
-<h2 class="mb-4 flex place-content-between items-center gap-2">
-    <div class="flex items-center gap-2 text-2xl font-semibold">
-        <ListIcon class="h-6 w-6" />
-        Ingredients
-    </div>
-    {#if edit}
-        <button class="hover:text-gray-500" onclick={addIngredient}>
-            <Plus />
-        </button>
-    {/if}
-</h2>
-<div bind:this={ingredientElement}>
-    {#each ingredients as ingredient, index (ingredient.id)}
-        <div
-            data-id={ingredient.id}
-            class={`z-10 flex cursor-pointer gap-2 rounded-2xl p-3 pl-4 text-left ${edit ? '' : 'hover:bg-base-300'}`}
-        >
-            {@render (edit ? ingredientEdit : ingredientItem)(index, ingredient)}
-        </div>
-    {/each}
-</div>
+{#snippet heading()}
+    <RecipeListHeading TitleIcon={ListIcon} {edit} title="Ingredients" addItem={addIngredient} />
+{/snippet}
+
+{#snippet ingredientListEntry(ingredient: Ingredient, index: number, edit: boolean)}
+    <li
+        data-id={ingredient.id}
+        class={`z-10 flex cursor-pointer gap-2 rounded-2xl p-3 pl-4 text-left ${edit ? '' : 'hover:bg-base-300'}`}
+    >
+        {@render (edit ? ingredientEdit : ingredientItem)(index, ingredient)}
+    </li>
+{/snippet}
 
 {#snippet ingredientItem(index: number, ingredient: Ingredient)}
     <input type="checkbox" class="checkbox-primary checkbox" id={`ingredientCheckbox${index}`} />
@@ -63,7 +40,7 @@
 
 {#snippet ingredientEdit(index: number, ingredient: Ingredient)}
     <label class="input input-bordered flex w-full items-center gap-2">
-        <button id="ingredient-handle">
+        <button id="item-handle">
             <GripVertical />
         </button>
         <input type="text" class="grow" bind:value={ingredient.notes} />
@@ -72,3 +49,12 @@
         </button>
     </label>
 {/snippet}
+
+<DraggableList
+    {heading}
+    items={ingredients}
+    sortItems={sortIngredients}
+    itemSnippet={ingredientListEntry}
+    {edit}
+    {dragAnimationDuration}
+/>
