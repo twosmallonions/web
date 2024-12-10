@@ -1,20 +1,38 @@
 <script lang="ts">
     import type { Step } from '$lib/types/recipe';
     import { GripVertical, Plus, ScrollTextIcon, Trash2 } from 'lucide-svelte';
+    import Sortable from 'sortablejs';
+    import { onMount } from 'svelte';
 
     const {
         steps,
         deleteStep,
-        //sortSteps,
+        sortSteps,
         addStep,
-        edit = false
+        edit = false,
+        dragAnimationDuration = 150
     }: {
         steps: Step[];
         deleteStep: (index: number) => void;
         edit?: boolean;
         addStep: () => void;
-        //sortSteps: (ids: string[]) => void;
+        sortSteps: (ids: string[]) => void;
+        dragAnimationDuration?: number;
     } = $props();
+
+    let stepElement: HTMLElement;
+
+    onMount(async () => {
+        let stepSortable = Sortable.create(stepElement, {
+            animation: dragAnimationDuration,
+            group: 'ingredients',
+            handle: '#step-handle',
+            dataIdAttr: 'data-id',
+            onSort() {
+                sortSteps(stepSortable.toArray());
+            }
+        });
+    });
 </script>
 
 <h2 class="mb-4 flex place-content-between items-center gap-2">
@@ -28,16 +46,12 @@
         </button>
     {/if}
 </h2>
-<div class="space-y-6">
+<div class="space-y-6" bind:this={stepElement}>
     {#each steps as step, index (step.id)}
-        {#if step.heading}
-            <h3 class="mt-8 text-xl font-semibold first:mt-0">{step.description}</h3>
-        {:else}
-            <div class="collapse collapse-arrow bg-base-200 hover:bg-base-300" data-id={step.id}>
-                <input type="checkbox" checked={true} />
-                {@render (edit ? editStep : normalStep)(step, index)}
-            </div>
-        {/if}
+        <div class="collapse collapse-arrow bg-base-200 hover:bg-base-300" data-id={step.id}>
+            <input type="checkbox" checked={true} />
+            {@render (edit ? editStep : normalStep)(step, index)}
+        </div>
     {/each}
 </div>
 

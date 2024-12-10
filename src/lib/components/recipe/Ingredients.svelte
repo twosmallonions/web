@@ -47,22 +47,12 @@
 </h2>
 <div bind:this={ingredientElement}>
     {#each ingredients as ingredient, index (ingredient.id)}
-        {#if ingredient.heading}
-            <h3 class="mt-8 text-xl font-semibold first:mt-0">
-                {ingredient.notes}
-            </h3>
-        {:else}
-            <div
-                data-id={ingredient.id}
-                class={`z-10 flex cursor-pointer gap-2 rounded-2xl p-3 pl-4 text-left ${edit ? '' : 'hover:bg-base-300'}`}
-            >
-                {#if edit}
-                    {@render ingredientEdit(index, ingredient)}
-                {:else}
-                    {@render ingredientItem(index, ingredient)}
-                {/if}
-            </div>
-        {/if}
+        <div
+            data-id={ingredient.id}
+            class={`z-10 flex cursor-pointer gap-2 rounded-2xl p-3 pl-4 text-left ${edit ? '' : 'hover:bg-base-300'}`}
+        >
+            {@render (edit ? ingredientEdit : ingredientItem)(index, ingredient)}
+        </div>
     {/each}
 </div>
 
