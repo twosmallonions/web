@@ -25,6 +25,13 @@ export default ts.config(
             parserOptions: {
                 parser: ts.parser
             }
+        },
+
+        rules: {
+            'svelte/no-target-blank': 'error',
+            'svelte/require-each-key': 'error',
+            'svelte/no-useless-mustaches': 'error',
+            'svelte/valid-each-key': 'error'
         }
     },
     {
