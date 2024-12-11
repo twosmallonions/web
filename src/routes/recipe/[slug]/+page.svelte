@@ -3,8 +3,10 @@
     const { recipe } = data;
 
     import Ingredients from '$lib/components/recipe/Ingredients.svelte';
+    import MetaInfo from '$lib/components/recipe/MetaInfo.svelte';
     import Steps from '$lib/components/recipe/Steps.svelte';
     import type { Ingredient, Step } from '$lib/types/recipe.js';
+    import { convertMinutes } from '$lib/util.js';
     import {
         CalendarClockIcon,
         CalendarPlusIcon,
@@ -12,11 +14,10 @@
         CookingPotIcon,
         ExternalLinkIcon,
         PencilIcon,
-        TimerIcon,
-        UsersIcon,
         UtensilsCrossedIcon,
         ChevronDown,
-        ChevronUp
+        ChevronUp,
+        Carrot
     } from 'lucide-svelte';
 
     let isRecipeDescriptionExpanded = $state(false);
@@ -213,43 +214,33 @@
 {/snippet}
 
 {#snippet metaInfoServings()}
-    <div class="stat h-full rounded-lg bg-base-200 p-4">
-        <div class="stat-title flex items-center gap-2">
-            <UsersIcon class="h-4 w-4" />
-            Servings
-        </div>
-        <div class="stat-value text-2xl">{recipe.servings}</div>
-    </div>
+    <MetaInfo
+        title="Servings"
+        value={targetRecipe.servings}
+        StatIcon={UtensilsCrossedIcon}
+        {edit}
+    />
 {/snippet}
 
 {#snippet metaInfoPrepTime()}
-    <div class="stat h-full rounded-lg bg-base-200 p-4">
-        <div class="stat-title flex items-center gap-2">
-            <ClockIcon class="h-4 w-4" />
-            Total Time
-        </div>
-        <div class="stat-value text-2xl">{recipe.totalTime} min</div>
-        <div class="stat-desc space-x-2">
-            {#if recipe.prepTime}
-                <span class="inline-flex items-center">
-                    <UtensilsCrossedIcon class="mr-1 h-3 w-3" />
-                    Prep: {recipe.prepTime} min
-                </span>
-            {/if}
-            {#if recipe.cookTime}
-                <span class="inline-flex items-center">
-                    <CookingPotIcon class="mr-1 h-3 w-3" />
-                    Cook: {recipe.cookTime} min
-                </span>
-            {/if}
-            {#if recipe.restTime}
-                <span class="inline-flex items-center">
-                    <TimerIcon class="mr-1 h-3 w-3" />
-                    Rest: {recipe.restTime} min
-                </span>
-            {/if}
-        </div>
-    </div>
+    <MetaInfo
+        title="Prep time"
+        value={convertMinutes(targetRecipe.prepTime)}
+        StatIcon={Carrot}
+        {edit}
+    />
+    <MetaInfo
+        title="Cook Time"
+        value={`${targetRecipe.cookTime} min`}
+        StatIcon={CookingPotIcon}
+        {edit}
+    />
+    <MetaInfo
+        title="Total Time"
+        value={`${targetRecipe.totalTime} min`}
+        StatIcon={ClockIcon}
+        {edit}
+    />
 {/snippet}
 
 {#snippet originalUrl()}
