@@ -11,7 +11,7 @@
         rawValue
     }: {
         // eslint-disable-next-line no-undef
-        rawValue: T;
+        rawValue?: T;
         edit: boolean;
         title: string;
         value: string;

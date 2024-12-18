@@ -6,25 +6,23 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
     const authCookie = event.cookies.get('__Host-SESSION') ?? null;
     if (authCookie === null) {
-        return redirect(303, '/auth');
+        redirect(303, '/auth');
     }
 
     await event
         .fetch('/auth/userinfo')
-        .then((res) => {
+        .then(async (res) => {
+            console.log('first then')
             if (!res.ok) {
-                error(500, {
-                    message: 'Something went wrong...'
-                });
+                throw new Error(`response not okay: ${res.status}`);
             }
-            return res.json();
-        })
-        .then((body) => {
-            event.locals.user = body;
+            event.locals.user = await res.json();
         })
         .catch((e) => {
+            console.log('catch')
+            event.cookies.delete('__HOST-SESSION', {path: '/'});
             console.log(e);
-            error(500, { message: 'Something went wrong...' });
+            redirect(303, '/auth');
         });
 
     const response = await resolve(event);

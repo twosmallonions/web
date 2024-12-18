@@ -1,38 +1,38 @@
 <script lang="ts">
-    import type { Step } from '$lib/types/recipe';
+    import type { Instruction } from '$lib/types/recipe';
     import { GripVertical, ScrollTextIcon, Trash2 } from 'lucide-svelte';
     import RecipeListHeading from './RecipeListHeading.svelte';
     import DraggableList from './DraggableList.svelte';
 
     const {
-        steps,
-        deleteStep,
-        sortSteps,
-        addStep,
+        instructions,
+        deleteInstruction,
+        sortInstruction,
+        addInstruction,
         edit = false,
         dragAnimationDuration = 150
     }: {
-        steps: Step[];
-        deleteStep: (index: number) => void;
+        instructions: Instruction[];
+        deleteInstruction: (index: number) => void;
         edit?: boolean;
-        addStep: () => void;
-        sortSteps: (ids: string[]) => void;
+        addInstruction: () => void;
+        sortInstruction: (ids: string[]) => void;
         dragAnimationDuration?: number;
     } = $props();
 </script>
 
 {#snippet heading()}
-    <RecipeListHeading TitleIcon={ScrollTextIcon} {edit} title="Instructions" addItem={addStep} />
+    <RecipeListHeading TitleIcon={ScrollTextIcon} {edit} title="Instructions" addItem={addInstruction} />
 {/snippet}
 
-{#snippet stepListEntry(step: Step, index: number, edit: boolean)}
+{#snippet stepListEntry(step: Instruction, index: number, edit: boolean)}
     <li class="collapse collapse-arrow bg-base-200 hover:bg-base-300" data-id={step.id}>
         <input type="checkbox" checked={true} />
         {@render (edit ? editStep : normalStep)(step, index)}
     </li>
 {/snippet}
 
-{#snippet normalStep(step: Step, index: number)}
+{#snippet normalStep(step: Instruction, index: number)}
     <div class="collapse-title">
         <h4 class="card-title">Step {index + 1}</h4>
     </div>
@@ -41,7 +41,7 @@
     </div>
 {/snippet}
 
-{#snippet editStep(step: Step, index: number)}
+{#snippet editStep(step: Instruction, index: number)}
     <div class="collapse-title">
         <div class="flex place-content-between">
             <div class="z-50 flex gap-3">
@@ -50,7 +50,7 @@
                 </button>
                 <h4 class="card-title">Step {index + 1}</h4>
             </div>
-            <button class="z-50 text-red-500 hover:text-red-700" onclick={() => deleteStep(index)}
+            <button class="z-50 text-red-500 hover:text-red-700" onclick={() => deleteInstruction(index)}
                 ><Trash2 /></button
             >
         </div>
@@ -63,8 +63,8 @@
 
 <DraggableList
     {heading}
-    items={steps}
-    sortItems={sortSteps}
+    items={instructions}
+    sortItems={sortInstruction}
     itemSnippet={stepListEntry}
     {edit}
     {dragAnimationDuration}

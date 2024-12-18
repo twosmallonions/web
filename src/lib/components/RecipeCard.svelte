@@ -1,6 +1,6 @@
 <script lang="ts">
     import { likeRecipeRequest } from '$lib/services/recipeService';
-    import type { Recipe } from '$lib/types/recipe';
+    import type { RecipeListEntry } from '$lib/types/recipe';
     import { Heart } from 'lucide-svelte';
 
     export const likeRecipe = async () => {
@@ -8,7 +8,7 @@
         await likeRecipeRequest(recipe.id, fetch);
     };
 
-    let { recipe }: { recipe: Recipe } = $props();
+    let { recipe }: { recipe: RecipeListEntry } = $props();
     let liked = $state(recipe.liked);
 </script>
 
@@ -22,7 +22,7 @@
         </h2>
         <p class="truncate">{recipe.description}</p>
         <div class="card-actions justify-between">
-            <button onclick={likeRecipe} class="rounded-full">
+            <button onclickcapture={(e) => {e.preventDefault(); likeRecipe()}} class="rounded-full">
                 <div class="transition-colors duration-100 [&>svg]:hover:text-red-500">
                     <Heart
                         color={liked ? '#ef4444' : 'currentColor'}

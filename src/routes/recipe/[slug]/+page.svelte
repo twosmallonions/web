@@ -4,8 +4,7 @@
 
     import Ingredients from '$lib/components/recipe/Ingredients.svelte';
     import MetaInfo from '$lib/components/recipe/MetaInfo.svelte';
-    import Steps from '$lib/components/recipe/Steps.svelte';
-    import type { Ingredient, Step } from '$lib/types/recipe.js';
+    import type { Ingredient, Instruction } from '$lib/types/recipe.js';
     import { convertMinutes } from '$lib/util.js';
     import {
         CalendarClockIcon,
@@ -19,6 +18,7 @@
         ChevronUp,
         Carrot
     } from 'lucide-svelte';
+    import Instructions from '$lib/components/recipe/Instructions.svelte';
 
     let isRecipeDescriptionExpanded = $state(false);
     let maxDescriptionLength = 300;
@@ -45,7 +45,7 @@
         updatedRecipe.ingredients.push({
             heading: false,
             id: `temp-${Math.floor(Math.random() * 50)}`,
-            notes: ''
+            description: ''
         });
     };
 
@@ -58,56 +58,46 @@
             .filter((ingredient): ingredient is Ingredient => ingredient !== undefined);
     };
 
-    const deleteStep = (index: number) => {
-        updatedRecipe.steps = [
-            ...updatedRecipe.steps.slice(0, index),
-            ...updatedRecipe.steps.slice(index + 1)
+    const deleteInstruction = (index: number) => {
+        updatedRecipe.instructions = [
+            ...updatedRecipe.instructions.slice(0, index),
+            ...updatedRecipe.instructions.slice(index + 1)
         ];
     };
 
-    const addStep = () => {
-        updatedRecipe.steps.push({
+    const addInstruction = () => {
+        updatedRecipe.instructions.push({
             heading: false,
             id: `temp-${Math.floor(Math.random() * 50)}`,
-            description: '',
-            linkedIngredients: []
+            description: ''
         });
     };
 
-    const sortSteps = (ids: string[]) => {
+    const sortInstruction = (ids: string[]) => {
         const ingredientMap = new Map(
-            updatedRecipe.steps.map((ingredient) => [ingredient.id, ingredient])
+            updatedRecipe.instructions.map((instruction) => [instruction.id, instruction])
         );
-        updatedRecipe.steps = ids
+        updatedRecipe.instructions = ids
             .map((id) => ingredientMap.get(id))
-            .filter((ingredient): ingredient is Step => ingredient !== undefined);
+            .filter((instruction): instruction is Instruction => instruction !== undefined);
     };
 </script>
 
 <div class="container mx-auto md:px-4 md:py-8">
     <!-- Recipe Header -->
 
-    <div class="block sm:hidden">
-        {#if recipe.coverImage && recipe.coverImage.length > 0}
-            {@render coverImage()}
-        {/if}
-    </div>
     <header class="mb-2">
         <div class="mb-6 flex items-start justify-between gap-3">
             {@render recipeTitle()}
-            <button class="btn btn-ghost" onclick={() => (edit = !edit)}>
-                <PencilIcon class="mr-2 h-5 w-5" />
-
-                {edit ? 'Save Recipe' : 'Edit Recipe'}
-            </button>
+            {@render editSaveButton()}
         </div>
 
+        <div>
+            {@render description()}
+        </div>
         <!-- TODO: make this nicer -->
         <div class="block gap-2 sm:grid sm:grid-cols-3">
             <div class="sm:col-span-2">
-                {#if recipe.description}
-                    {@render description()}
-                {/if}
                 <!-- Recipe Meta Info -->
                 <div class="mb-6 flex gap-2">
                     {#if recipe.servings}
@@ -119,11 +109,6 @@
                 </div>
                 {#if recipe.originalUrl}
                     {@render originalUrl()}
-                {/if}
-            </div>
-            <div class="hidden sm:block">
-                {#if recipe.coverImage && recipe.coverImage.length > 0}
-                    {@render coverImage()}
                 {/if}
             </div>
         </div>
@@ -146,14 +131,23 @@
 
         <!-- Steps Column -->
         <div class="lg:col-span-2">
-            <Steps steps={targetRecipe.steps} {edit} {deleteStep} {addStep} {sortSteps} />
+            <Instructions
+                instructions={targetRecipe.instructions}
+                {edit}
+                {deleteInstruction}
+                {addInstruction}
+                {sortInstruction}
+            />
         </div>
     </div>
 
     <!-- Footer Meta -->
     <footer class="mt-12 border-t border-base-300 pt-6 text-sm text-base-content/60">
         <div class="flex flex-wrap gap-x-6 gap-y-2">
-            <div class="flex items-center gap-2">
+            <div
+                class="tooltip flex items-center gap-2"
+                data-tip={() => new Date(recipe.added).toLocaleTimeString}
+            >
                 <CalendarPlusIcon class="h-4 w-4" />
                 Added: {new Date(recipe.added).toLocaleDateString()}
             </div>
@@ -164,6 +158,14 @@
         </div>
     </footer>
 </div>
+
+{#snippet editSaveButton()}
+    <button class="btn btn-ghost" onclick={() => (edit = !edit)}>
+        <PencilIcon class="mr-2 h-5 w-5" />
+
+        {edit ? 'Save Recipe' : 'Edit Recipe'}
+    </button>
+{/snippet}
 
 {#snippet recipeTitle()}
     {#if edit}
@@ -177,38 +179,34 @@
     {/if}
 {/snippet}
 
-{#snippet coverImage()}
-    <div class="max-h-128 overflow-hidden rounded-lg">
-        <picture class="object-cover object-top">
-            {#each recipe.coverImage as url, index (index)}
-                {@const extension = url.split('.').pop().split('?')[0].toLowerCase()}
-                {#if extension === 'avif'}
-                    <source srcset={url} type="image/avif" />
-                {:else if extension === 'webp'}
-                    <source srcset={url} type="image/webp" />
-                {:else}
-                    <img src={url} alt={recipe.title} loading="eager" />
-                {/if}
-            {/each}
-        </picture>
-    </div>
-{/snippet}
-
 {#snippet description()}
     <div class="prose mb-8 max-w-none">
-        <p>{truncatedDescription}</p>
-        {#if recipe.description.length > maxDescriptionLength}
-            <button
-                class="text-base-400 mt-2 flex items-center gap-1 text-sm hover:text-base-content"
-                onclick={() => (isRecipeDescriptionExpanded = !isRecipeDescriptionExpanded)}
-            >
-                <span>{isRecipeDescriptionExpanded ? 'Show less' : 'Show more'}</span>
-                {#if isRecipeDescriptionExpanded}
-                    <ChevronUp />
-                {:else}
-                    <ChevronDown />
-                {/if}
-            </button>
+        {#if edit}
+            <textarea
+                class="textarea textarea-bordered w-full"
+                bind:value={updatedRecipe.description}
+                rows="5"
+            ></textarea>
+        {:else}
+            {#if truncatedDescription}
+                {truncatedDescription}
+            {:else}
+                <span class="font-light italic text-slate-300">No description...</span>
+            {/if}
+            <p>{truncatedDescription}</p>
+            {#if recipe.description.length > maxDescriptionLength}
+                <button
+                    class="text-base-400 mt-2 flex items-center gap-1 text-sm hover:text-base-content"
+                    onclick={() => (isRecipeDescriptionExpanded = !isRecipeDescriptionExpanded)}
+                >
+                    <span>{isRecipeDescriptionExpanded ? 'Show less' : 'Show more'}</span>
+                    {#if isRecipeDescriptionExpanded}
+                        <ChevronUp />
+                    {:else}
+                        <ChevronDown />
+                    {/if}
+                </button>
+            {/if}
         {/if}
     </div>
 {/snippet}
@@ -251,7 +249,7 @@
             href={recipe.originalUrl}
             class="link link-primary"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer nofollow"
         >
             {recipe.originalUrl}
         </a>

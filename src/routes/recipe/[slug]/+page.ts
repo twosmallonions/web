@@ -6,6 +6,7 @@ import type { PageLoad } from './$types';
 export const load: PageLoad = async ({ params, fetch }) => {
     try {
         const recipe = await getRecipeBySlug(params.slug, fetch);
+        console.log(recipe);
 
         return {
             recipeSlug: params.slug,

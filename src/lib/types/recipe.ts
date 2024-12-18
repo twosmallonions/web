@@ -1,10 +1,13 @@
-export interface Recipe {
+export interface RecipeListEntry {
     id: string;
-    title: string;
-    description: string;
-    note: string;
-    liked: boolean;
+    subject: string;
     slug: string;
+    title: string;
+    description?: string;
+    original_url?: string;
+    added: Date;
+    modified: Date;
+    liked: boolean;
 }
 
 export interface FullRecipe {
@@ -16,30 +19,28 @@ export interface FullRecipe {
     originalUrl: string;
     added: Date;
     modified: Date;
+    lastMade: Date;
     prepTime: number;
     cookTime: number;
     restTime: number;
     totalTime: number;
+    liked: boolean;
     note: string;
     id: string;
     ingredients: Ingredient[];
-    steps: Step[];
+    instructions: Instruction[];
     coverImage: string[];
 }
 
 export interface Ingredient {
     id: string;
-    notes: string;
+    description: string;
     heading: boolean;
 }
 
-export interface Step {
+export interface Instruction {
     id: string;
     description: string;
     heading: boolean;
-    linkedIngredients: StepIngredient[];
 }
 
-export interface StepIngredient {
-    ingredientId: string;
-}
