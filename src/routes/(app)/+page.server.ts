@@ -1,10 +1,9 @@
 import { getRecipes } from '$lib/services/recipeService';
-import type { PageLoad } from './$types';
+import type { PageServerLoad } from './$types';
 
-export const load: PageLoad = async ({ fetch, data }) => {
+export const load: PageServerLoad = async ({ fetch }) => {
     const recipes = await getRecipes(fetch);
     return {
-        user: data.user,
         recipes
     };
 };

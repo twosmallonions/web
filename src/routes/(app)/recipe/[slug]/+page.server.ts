@@ -1,9 +1,9 @@
 import { ApiError } from '$lib/services/apiError';
 import { getRecipeBySlug } from '$lib/services/recipeService';
 import { error } from '@sveltejs/kit';
-import type { PageLoad } from './$types';
+import type { PageServerLoad } from './$types';
 
-export const load: PageLoad = async ({ params, fetch }) => {
+export const load: PageServerLoad = async ({ params, fetch }) => {
     try {
         const recipe = await getRecipeBySlug(params.slug, fetch);
         console.log(recipe);

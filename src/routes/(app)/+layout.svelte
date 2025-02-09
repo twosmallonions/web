@@ -1,5 +1,5 @@
 <script lang="ts">
-    import '../app.css';
+    import '../../app.css';
 
     import NavLink from '$lib/components/nav/NavLink.svelte';
 
