@@ -43,4 +43,3 @@ export interface Instruction {
     description: string;
     heading: boolean;
 }
-

@@ -22,7 +22,12 @@
 </script>
 
 {#snippet heading()}
-    <RecipeListHeading TitleIcon={ScrollTextIcon} {edit} title="Instructions" addItem={addInstruction} />
+    <RecipeListHeading
+        TitleIcon={ScrollTextIcon}
+        {edit}
+        title="Instructions"
+        addItem={addInstruction}
+    />
 {/snippet}
 
 {#snippet stepListEntry(step: Instruction, index: number, edit: boolean)}
@@ -50,8 +55,9 @@
                 </button>
                 <h4 class="card-title">Step {index + 1}</h4>
             </div>
-            <button class="z-50 text-red-500 hover:text-red-700" onclick={() => deleteInstruction(index)}
-                ><Trash2 /></button
+            <button
+                class="z-50 text-red-500 hover:text-red-700"
+                onclick={() => deleteInstruction(index)}><Trash2 /></button
             >
         </div>
     </div>

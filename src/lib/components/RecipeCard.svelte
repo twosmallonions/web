@@ -22,7 +22,13 @@
         </h2>
         <p class="truncate">{recipe.description}</p>
         <div class="card-actions justify-between">
-            <button onclickcapture={(e) => {e.preventDefault(); likeRecipe()}} class="rounded-full">
+            <button
+                onclickcapture={(e) => {
+                    e.preventDefault();
+                    likeRecipe();
+                }}
+                class="rounded-full"
+            >
                 <div class="transition-colors duration-100 [&>svg]:hover:text-red-500">
                     <Heart
                         color={liked ? '#ef4444' : 'currentColor'}
