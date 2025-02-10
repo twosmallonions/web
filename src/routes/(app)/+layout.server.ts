@@ -5,7 +5,7 @@ export const load: LayoutServerLoad = async (event) => {
     const session = await event.locals.auth();
     console.log(`access token is: ${session?.accessToken}`);
     if (!session?.user) {
-        redirect(302, '/signin');
+        redirect(307, `/signin`);
     }
 
     return {
