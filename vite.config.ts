@@ -10,8 +10,10 @@ export default defineConfig({
     server: {
         proxy: {
             '/api': {
-                target: 'http://localhost:8000',
-                rewrite: (path) => path.replace(/^\/api/, '')
+                target: 'http://oauth2-proxy:4180',
+            },
+            '/oauth2': {
+                target: 'http://oauth2-proxy:4180'
             }
         }
     }

@@ -11,7 +11,7 @@
 
 <div class="mx-auto max-w-7xl px-4 py-8">
     <div class="mb-16 text-center">
-        <h1 class="mb-4 text-4xl font-bold">Welcome {data.session?.user?.name}</h1>
+        <h1 class="mb-4 text-4xl font-bold">Welcome</h1>
         <p class="text-2xl text-base-content/70">What do you want to cook today?</p>
     </div>
 
