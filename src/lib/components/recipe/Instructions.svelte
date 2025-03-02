@@ -42,7 +42,7 @@
         <h4 class="card-title">Step {index + 1}</h4>
     </div>
     <div class="collapse-content">
-        <p>{step.description}</p>
+        <p>{step.text}</p>
     </div>
 {/snippet}
 
@@ -62,7 +62,7 @@
         </div>
     </div>
     <div class="collapse-content">
-        <textarea class="textarea textarea-bordered w-full" rows="4" bind:value={step.description}
+        <textarea class="textarea textarea-bordered w-full" rows="4" bind:value={step.text}
         ></textarea>
     </div>
 {/snippet}

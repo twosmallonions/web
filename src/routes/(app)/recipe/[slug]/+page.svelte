@@ -43,7 +43,6 @@
 
     const addIngredient = () => {
         updatedRecipe.ingredients.push({
-            heading: false,
             id: `temp-${Math.floor(Math.random() * 50)}`,
             description: ''
         });
@@ -100,14 +99,14 @@
             <div class="sm:col-span-2">
                 <!-- Recipe Meta Info -->
                 <div class="mb-6 flex gap-2">
-                    {#if recipe.servings}
+                    {#if recipe.recipeYield}
                         <div class="h-24 min-w-60">{@render metaInfoServings()}</div>
                     {/if}
                     {#if recipe.totalTime}
                         <div class="h-24 min-w-60">{@render metaInfoPrepTime()}</div>
                     {/if}
                 </div>
-                {#if recipe.originalUrl}
+                {#if false}
                     {@render originalUrl()}
                 {/if}
             </div>
@@ -146,7 +145,7 @@
         <div class="flex flex-wrap gap-x-6 gap-y-2">
             <div
                 class="tooltip flex items-center gap-2"
-                data-tip={() => new Date(recipe.added).toLocaleTimeString}
+                data-tip={() => new Date(recipe.createdAt).toLocaleTimeString}
             >
                 <CalendarPlusIcon class="h-4 w-4" />
                 Added: {new Date(recipe.added).toLocaleDateString()}

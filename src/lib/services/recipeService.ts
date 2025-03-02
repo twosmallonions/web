@@ -4,10 +4,9 @@ import { ApiError } from './apiError';
 export const getRecipes = async (
     fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
 ) => {
-    console.log('herw')
     const resp = await fetch('/api/recipe/');
     if (!resp.ok) {
-        //console.log(`failed to fetch recipes: ${resp.status}\n${await resp.text()}`);
+        console.log(`failed to fetch recipes: ${resp.status}\n${await resp.text()}`);
         return [];
     }
     const recipes: RecipeListEntry[] = await resp.json();
@@ -50,7 +49,7 @@ export const getRecipeBySlug = async (
     const resp = await fetch(`/api/recipe/${slug}`);
 
     if (!resp.ok) {
-        //throw new ApiError("Oops... we can' find that recipe.", resp.status);
+        throw new ApiError("Oops... we can' find that recipe.", resp.status);
     }
 
     const recipe: FullRecipe = await resp.json();

@@ -35,7 +35,7 @@
 
 {#snippet ingredientItem(index: number, ingredient: Ingredient)}
     <input type="checkbox" class="checkbox-primary checkbox" id={`ingredientCheckbox${index}`} />
-    <label for={`ingredientCheckbox${index}`}>{ingredient.description}</label>
+    <label for={`ingredientCheckbox${index}`}>{ingredient.text}</label>
 {/snippet}
 
 {#snippet ingredientEdit(index: number, ingredient: Ingredient)}
@@ -43,7 +43,7 @@
         <button id="item-handle">
             <GripVertical />
         </button>
-        <input type="text" class="grow" bind:value={ingredient.description} />
+        <input type="text" class="grow" bind:value={ingredient.text} />
         <button class="text-red-500 hover:text-red-700" onclick={() => deleteIngredient(index)}>
             <Trash2 />
         </button>

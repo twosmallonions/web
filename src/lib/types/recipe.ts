@@ -1,45 +1,40 @@
 export interface RecipeListEntry {
+    createdAt: Date;
+    updatedAt: Date;
     id: string;
-    subject: string;
+    owner: string;
     slug: string;
     title: string;
     description?: string;
-    original_url?: string;
-    added: Date;
-    modified: Date;
     liked: boolean;
 }
 
 export interface FullRecipe {
-    subject: string;
-    slug: string;
     title: string;
-    description: string;
-    servings: string;
-    originalUrl: string;
-    added: Date;
-    modified: Date;
-    lastMade: Date;
-    prepTime: number;
-    cookTime: number;
-    restTime: number;
-    totalTime: number;
+    description?: string;
+    cookTime?: number;
+    prepTime?: number;
+    recipeYield?: string;
     liked: boolean;
-    note: string;
     id: string;
-    ingredients: Ingredient[];
+    owner: string;
+    slug: string;
+    totalTime?: number;
+    lastMade?: Date;
     instructions: Instruction[];
-    coverImage: string[];
+    ingredients: Ingredient[];
+    coverImage?: string;
+    coverThumbnail?: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export interface Ingredient {
     id: string;
-    description: string;
-    heading: boolean;
+    text: string;
 }
 
 export interface Instruction {
     id: string;
-    description: string;
-    heading: boolean;
+    text: string;
 }

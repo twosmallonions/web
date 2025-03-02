@@ -46,7 +46,7 @@
         "vitest": "3.0.5"
     },
     "dependencies": {
-        "openid-client": "^6.3.3"
+        "openapi-fetch": "^0.13.4"
     },
     "packageManager": "pnpm@10.4.1"
 }
