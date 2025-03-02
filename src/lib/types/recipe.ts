@@ -1,13 +1,6 @@
-export interface RecipeListEntry {
-    createdAt: Date;
-    updatedAt: Date;
-    id: string;
-    owner: string;
-    slug: string;
-    title: string;
-    description?: string;
-    liked: boolean;
-}
+import type { components } from "./openapi";
+
+export type RecipeLight = components['schemas']['RecipeLight'];
 
 export interface FullRecipe {
     title: string;

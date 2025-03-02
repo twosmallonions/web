@@ -10,11 +10,8 @@ export default defineConfig({
     server: {
         proxy: {
             '/api': {
-                target: 'http://oauth2-proxy:4180',
+                target: 'http://localhost:8000',
             },
-            '/oauth2': {
-                target: 'http://oauth2-proxy:4180'
-            }
         }
     }
 });

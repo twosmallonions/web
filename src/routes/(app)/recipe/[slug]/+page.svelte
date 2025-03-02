@@ -1,6 +1,6 @@
 <script lang="ts">
     const { data } = $props();
-    const { recipe } = data;
+    const { recipe, error } = data;
 
     import Ingredients from '$lib/components/recipe/Ingredients.svelte';
     import MetaInfo from '$lib/components/recipe/MetaInfo.svelte';
@@ -11,7 +11,6 @@
         CalendarPlusIcon,
         ClockIcon,
         CookingPotIcon,
-        ExternalLinkIcon,
         PencilIcon,
         UtensilsCrossedIcon,
         ChevronDown,
@@ -19,18 +18,21 @@
         Carrot
     } from 'lucide-svelte';
     import Instructions from '$lib/components/recipe/Instructions.svelte';
-
+    if (!recipe) {
+        throw new Error("ahhh");
+    }
     let isRecipeDescriptionExpanded = $state(false);
     let maxDescriptionLength = 300;
+    let rdescription = $state(recipe.description || '');
     let truncatedDescription = $derived(
-        recipe.description.length > maxDescriptionLength && !isRecipeDescriptionExpanded
-            ? recipe.description.slice(0, maxDescriptionLength) + '…'
-            : recipe.description
+        rdescription.length > maxDescriptionLength && !isRecipeDescriptionExpanded
+            ? rdescription.slice(0, maxDescriptionLength) + '…'
+            : rdescription
     );
 
     let edit = $state(false);
 
-    const updatedRecipe = $state(structuredClone(recipe));
+    const updatedRecipe = $state(structuredClone(recipe!));
 
     let targetRecipe = $derived(edit ? updatedRecipe : recipe);
 
@@ -193,7 +195,7 @@
                 <span class="font-light italic text-slate-300">No description...</span>
             {/if}
             <p>{truncatedDescription}</p>
-            {#if recipe.description.length > maxDescriptionLength}
+            {#if rdescription.length > maxDescriptionLength}
                 <button
                     class="text-base-400 mt-2 flex items-center gap-1 text-sm hover:text-base-content"
                     onclick={() => (isRecipeDescriptionExpanded = !isRecipeDescriptionExpanded)}
@@ -213,7 +215,7 @@
 {#snippet metaInfoServings()}
     <MetaInfo
         title="Servings"
-        value={targetRecipe.servings}
+        value={targetRecipe.recipeYield!}
         StatIcon={UtensilsCrossedIcon}
         {edit}
     />
@@ -238,19 +240,4 @@
         StatIcon={ClockIcon}
         {edit}
     />
-{/snippet}
-
-{#snippet originalUrl()}
-    <div class="flex items-center gap-2 text-sm">
-        <ExternalLinkIcon class="h-4 w-4" />
-        <span class="font-medium">Original Recipe:</span>
-        <a
-            href={recipe.originalUrl}
-            class="link link-primary"
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-        >
-            {recipe.originalUrl}
-        </a>
-    </div>
 {/snippet}

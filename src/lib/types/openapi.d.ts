@@ -221,8 +221,8 @@ export interface components {
             slug: string;
             /** Title */
             title: string;
-            /** Descirption */
-            descirption: string | null;
+            /** Description */
+            description: string | null;
             /** Liked */
             liked: boolean;
         };
