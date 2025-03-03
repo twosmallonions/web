@@ -25,13 +25,13 @@ services:
     depends_on:
      - db
   db:
-    image: postgres:17
+    image: postgres:17@sha256:81f32a88ec561664634637dd446487efd5f9d90996304b96210078e90e5c8b21
     environment:
       - POSTGRES_PASSWORD=postgres
     ports:
       - 5432:5432
   oauth2-proxy:
-    image: quay.io/oauth2-proxy/oauth2-proxy 
+    image: quay.io/oauth2-proxy/oauth2-proxy@sha256:d62e2d81c6f5048f652f67c302083be1272c181b971fad80e5a30ebe2b8b75d8 
     command: --cookie-name tso_session --pass-authorization-header --upstream http://api:8000/api/ --http-address=:4180 --email-domain '*' --oidc-extra-audience="tso-api" --cookie-refresh=200s
     env_file: 
       - .oauth2.env
