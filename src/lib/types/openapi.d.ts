@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/api/recipe/{slug}": {
+    '/api/recipe/{slug}': {
         parameters: {
             query?: never;
             header?: never;
@@ -12,7 +12,7 @@ export interface paths {
             cookie?: never;
         };
         /** Get Recipe By Slug */
-        get: operations["get_recipe_by_slug_api_recipe__slug__get"];
+        get: operations['get_recipe_by_slug_api_recipe__slug__get'];
         put?: never;
         post?: never;
         delete?: never;
@@ -21,7 +21,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/recipe/": {
+    '/api/recipe/': {
         parameters: {
             query?: never;
             header?: never;
@@ -29,17 +29,17 @@ export interface paths {
             cookie?: never;
         };
         /** Get Recipes By Owner */
-        get: operations["get_recipes_by_owner_api_recipe__get"];
+        get: operations['get_recipes_by_owner_api_recipe__get'];
         put?: never;
         /** Create Recipe */
-        post: operations["create_recipe_api_recipe__post"];
+        post: operations['create_recipe_api_recipe__post'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/recipe/{recipe_id}": {
+    '/api/recipe/{recipe_id}': {
         parameters: {
             query?: never;
             header?: never;
@@ -49,14 +49,14 @@ export interface paths {
         get?: never;
         put?: never;
         /** Get Recipe By Id */
-        post: operations["get_recipe_by_id_api_recipe__recipe_id__post"];
+        post: operations['get_recipe_by_id_api_recipe__recipe_id__post'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/recipe/{recipe_id}/cover": {
+    '/api/recipe/{recipe_id}/cover': {
         parameters: {
             query?: never;
             header?: never;
@@ -66,14 +66,14 @@ export interface paths {
         get?: never;
         put?: never;
         /** Add Cover Image To Recipe */
-        post: operations["add_cover_image_to_recipe_api_recipe__recipe_id__cover_post"];
+        post: operations['add_cover_image_to_recipe_api_recipe__recipe_id__cover_post'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/recipe/asset/{asset_id}": {
+    '/api/recipe/asset/{asset_id}': {
         parameters: {
             query?: never;
             header?: never;
@@ -81,7 +81,7 @@ export interface paths {
             cookie?: never;
         };
         /** Get Asset */
-        get: operations["get_asset_api_recipe_asset__asset_id__get"];
+        get: operations['get_asset_api_recipe_asset__asset_id__get'];
         put?: never;
         post?: never;
         delete?: never;
@@ -105,7 +105,7 @@ export interface components {
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
-            detail?: components["schemas"]["ValidationError"][];
+            detail?: components['schemas']['ValidationError'][];
         };
         /** Ingredient */
         Ingredient: {
@@ -190,9 +190,9 @@ export interface components {
             /** Lastmade */
             lastMade: string | null;
             /** Instructions */
-            instructions?: components["schemas"]["Instruction"][];
+            instructions?: components['schemas']['Instruction'][];
             /** Ingredients */
-            ingredients?: components["schemas"]["Ingredient"][];
+            ingredients?: components['schemas']['Ingredient'][];
             /** Coverimage */
             coverImage?: string | null;
             /** Coverthumbnail */
@@ -263,7 +263,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RecipeFull"];
+                    'application/json': components['schemas']['RecipeFull'];
                 };
             };
             /** @description Validation Error */
@@ -272,7 +272,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
@@ -294,7 +294,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RecipeLight"][];
+                    'application/json': components['schemas']['RecipeLight'][];
                 };
             };
             /** @description Validation Error */
@@ -303,7 +303,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
@@ -319,7 +319,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["RecipeCreate"];
+                'application/json': components['schemas']['RecipeCreate'];
             };
         };
         responses: {
@@ -329,7 +329,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RecipeFull"];
+                    'application/json': components['schemas']['RecipeFull'];
                 };
             };
             /** @description Validation Error */
@@ -338,7 +338,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
@@ -362,7 +362,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RecipeFull"];
+                    'application/json': components['schemas']['RecipeFull'];
                 };
             };
             /** @description Validation Error */
@@ -371,7 +371,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
@@ -389,7 +389,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "multipart/form-data": components["schemas"]["Body_add_cover_image_to_recipe_api_recipe__recipe_id__cover_post"];
+                'multipart/form-data': components['schemas']['Body_add_cover_image_to_recipe_api_recipe__recipe_id__cover_post'];
             };
         };
         responses: {
@@ -399,7 +399,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    'application/json': unknown;
                 };
             };
             /** @description Validation Error */
@@ -408,7 +408,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
@@ -432,7 +432,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    'application/json': unknown;
                 };
             };
             /** @description Validation Error */
@@ -441,7 +441,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };

@@ -1,4 +1,4 @@
-import type { components } from "./openapi";
+import type { components } from './openapi';
 
 export type RecipeLight = components['schemas']['RecipeLight'];
 

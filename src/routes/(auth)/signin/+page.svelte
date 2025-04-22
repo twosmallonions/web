@@ -1,12 +1,13 @@
 <script>
-    import { SignIn } from "@auth/sveltekit/components";
-    import "../../../app.css"
+    import { SignIn } from '@auth/sveltekit/components';
+    import '../../../app.css';
     const signInOptions = {
-        'redirect': true,
-        'redirectTo': '/'
-    }
+        redirect: true,
+        redirectTo: '/'
+    };
 </script>
-<div class="flex h-full bg-base-100 flex-col items-center gap-8">
+
+<div class="flex h-full flex-col items-center gap-8 bg-base-100">
     <div>
         <h1 class="text-2xl">Sign in</h1>
     </div>

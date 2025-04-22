@@ -1,5 +1,6 @@
 <script lang="ts">
     const { data } = $props();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { recipe, error } = data;
 
     import Ingredients from '$lib/components/recipe/Ingredients.svelte';
@@ -19,7 +20,7 @@
     } from 'lucide-svelte';
     import Instructions from '$lib/components/recipe/Instructions.svelte';
     if (!recipe) {
-        throw new Error("ahhh");
+        throw new Error('ahhh');
     }
     let isRecipeDescriptionExpanded = $state(false);
     let maxDescriptionLength = 300;

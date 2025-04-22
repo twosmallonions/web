@@ -1,12 +1,12 @@
 global:
-  sendAnonymousUsage: false
+    sendAnonymousUsage: false
 providers:
-  file:
-    directory: /dynamic-config
-    watch: true
+    file:
+        directory: /dynamic-config
+        watch: true
 entryPoints:
-  web:
-    address: ":80"
+    web:
+        address: ':80'
 
 log:
-  level: INFO
+    level: INFO

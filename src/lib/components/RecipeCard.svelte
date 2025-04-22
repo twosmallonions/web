@@ -20,7 +20,7 @@
         <h2 class="card-title">
             {recipe.title}
         </h2>
-        <p class="truncate">{recipe.description ? recipe.description : ""}</p>
+        <p class="truncate">{recipe.description ? recipe.description : ''}</p>
         <div class="card-actions justify-between">
             <button
                 onclickcapture={(e) => {

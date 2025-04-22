@@ -33,8 +33,7 @@ export const createRecipeRequest = async (
         body: JSON.stringify({ title }),
         headers: {
             'Content-Type': 'application/json'
-        },
-        
+        }
     });
 
     const recipe: FullRecipe = await resp.json();
