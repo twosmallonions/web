@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@auth/core':
-        specifier: 0.38.0
-        version: 0.38.0
+        specifier: 0.39.0
+        version: 0.39.0
       '@auth/sveltekit':
         specifier: 1.9.0
         version: 1.9.0(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.1.5(jiti@1.21.6)(yaml@2.6.0)))(svelte@5.28.2)(vite@6.1.5(jiti@1.21.6)(yaml@2.6.0)))(svelte@5.28.2)
@@ -115,20 +115,6 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
-
-  '@auth/core@0.38.0':
-    resolution: {integrity: sha512-ClHl44x4cY3wfJmHLpW+XrYqED0fZIzbHmwbExltzroCjR5ts3DLTWzADRba8mJFYZ8JIEJDa+lXnGl0E9Bl7Q==}
-    peerDependencies:
-      '@simplewebauthn/browser': ^9.0.1
-      '@simplewebauthn/server': ^9.0.2
-      nodemailer: ^6.8.0
-    peerDependenciesMeta:
-      '@simplewebauthn/browser':
-        optional: true
-      '@simplewebauthn/server':
-        optional: true
-      nodemailer:
-        optional: true
 
   '@auth/core@0.39.0':
     resolution: {integrity: sha512-jusviw/sUSfAh6S/wjY5tRmJOq0Itd3ImF+c/b4HB9DfmfChtcfVJTNJeqCeExeCG8oh4PBKRsMQJsn2W6NhFQ==}
@@ -2296,14 +2282,6 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
-
-  '@auth/core@0.38.0':
-    dependencies:
-      '@panva/hkdf': 1.2.1
-      jose: 6.0.8
-      oauth4webapi: 3.3.0
-      preact: 10.24.3
-      preact-render-to-string: 6.5.11(preact@10.24.3)
 
   '@auth/core@0.39.0':
     dependencies:
