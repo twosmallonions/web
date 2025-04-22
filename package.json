@@ -50,7 +50,7 @@
         "@auth/sveltekit": "1.8.0",
         "openapi-fetch": "0.13.4"
     },
-    "packageManager": "pnpm@10.4.1",
+    "packageManager": "pnpm@10.9.0",
     "pnpm": {
         "onlyBuiltDependencies": [
             "esbuild"
