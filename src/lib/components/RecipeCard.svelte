@@ -12,7 +12,7 @@
     let liked = $state(recipe.liked);
 </script>
 
-<a class="card w-96 bg-base-300 shadow-xl" href={`/recipe/${recipe.slug}`}>
+<a class="card w-96 bg-base-300 shadow-xl" href={`/collection/${recipe.collection}/recipe/${recipe.id}`}>
     <figure>
         <img src="https://placehold.co/600x400" alt="placeholder" />
     </figure>

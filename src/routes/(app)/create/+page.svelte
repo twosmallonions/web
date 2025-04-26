@@ -1,9 +1,11 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { createRecipeRequest } from '$lib/services/recipeService';
+    import client from '$lib';
+    let { data } = $props();
 
     let loading = $state(false);
     let newRecipeTitle = $state('');
+    let newRecipeCollectionId: string = $state();
 
     const createRecipe = async () => {
         if (loading) {
@@ -11,14 +13,27 @@
         }
 
         loading = true;
+        const newRecipe = await client.POST('/api/recipe/{collection_id}', {
+            params: {
+                path: {collection_id: newRecipeCollectionId},
+                header: {authorization: `Bearer ${data.session?.accessToken}`}
+            },
+            body: {
+                title: newRecipeTitle
+            }
+        });
 
-        const newRecipe = await createRecipeRequest(newRecipeTitle, fetch);
+        if (!newRecipe.data) {
+            console.error(newRecipe.error);
+            return
+        }
 
-        goto(`/recipe/${newRecipe.slug}`);
+        goto(`/collection/${newRecipe.data?.collection}/recipe/${newRecipe.data?.id}`);
     };
 </script>
 
 <div class="min-h-screen p-4 md:p-8">
+  {JSON.stringify(data.collections)}
     <!-- Header Section -->
     <div class="mb-12 text-center">
         <h1 class="mb-2 text-2xl font-bold md:text-3xl">Add New Recipe</h1>
@@ -91,14 +106,19 @@
                     />
                 </div>
 
-                <div class="flex justify-end">
-                    <button class="btn btn-primary" onclick={createRecipe}>
-                        {#if !loading}
-                            Create Recipe
-                        {:else}
-                            <span class="loading loading-spinner loading-md"></span>
-                        {/if}
-                    </button>
+                <div class="flex justify-between">
+                        <select class="select" bind:value={newRecipeCollectionId}>
+                            {#each data.collections as collection (collection.id)}
+                                <option value={collection.id}>{collection.name}</option>
+                            {/each}
+                        </select>
+                        <button class="btn btn-primary" onclick={createRecipe}>
+                            {#if !loading}
+                                Create Recipe
+                            {:else}
+                                <span class="loading loading-spinner loading-md"></span>
+                            {/if}
+                        </button>
                 </div>
             </div>
         </div>
