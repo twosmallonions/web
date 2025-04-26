@@ -1,6 +1,5 @@
 <script lang="ts" generics="T">
-    import { Icon } from 'lucide-svelte';
-    import type { ComponentType } from 'svelte';
+    import { Icon as IconType } from '@lucide/svelte';
 
     let {
         title,
@@ -16,11 +15,11 @@
         title: string;
         value: string;
         description?: string;
-        StatIcon: ComponentType<Icon>;
+        StatIcon: typeof IconType;
     } = $props();
 </script>
 
-<div class="stats bg-base-200 shadow">
+<div class="stats bg-base-200 shadow-sm">
     <div class="stat">
         <div class="stat-figure"><StatIcon /></div>
         <div class="stat-title">{title}</div>

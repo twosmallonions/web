@@ -1,7 +1,7 @@
 <script lang="ts">
     import { likeRecipeRequest } from '$lib/services/recipeService';
     import type { RecipeLight } from '$lib/types/recipe';
-    import { Heart } from 'lucide-svelte';
+    import { Heart } from '@lucide/svelte';
 
     export const likeRecipe = async () => {
         liked = !liked;
@@ -29,7 +29,7 @@
                 }}
                 class="rounded-full"
             >
-                <div class="transition-colors duration-100 [&>svg]:hover:text-red-500">
+                <div class="transition-colors duration-100 hover:[&>svg]:text-red-500">
                     <Heart
                         color={liked ? '#ef4444' : 'currentColor'}
                         fill={liked ? '#ef4444' : 'transparent'}

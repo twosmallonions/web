@@ -17,7 +17,7 @@
         ChevronDown,
         ChevronUp,
         Carrot
-    } from 'lucide-svelte';
+    } from '@lucide/svelte';
     import Instructions from '$lib/components/recipe/Instructions.svelte';
     if (!recipe) {
         throw new Error('ahhh');

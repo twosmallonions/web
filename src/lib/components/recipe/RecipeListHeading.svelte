@@ -1,9 +1,5 @@
 <script lang="ts">
-    import { Icon, Plus } from 'lucide-svelte';
-    import type { ComponentType } from 'svelte';
-    // TODO: Currently the new svelte 5 'Component' interface doesn't work with lucide-svelte
-    // so ComponentType will have to be used until it's supported.
-    // https://github.com/lucide-icons/lucide/issues/2565
+    import { Icon as IconType, Plus } from '@lucide/svelte';
     const {
         TitleIcon,
         AddIcon = Plus,
@@ -11,8 +7,8 @@
         title,
         addItem
     }: {
-        TitleIcon: ComponentType<Icon>;
-        AddIcon?: ComponentType<Icon>;
+        TitleIcon: typeof IconType;
+        AddIcon?: typeof IconType;
         edit: boolean;
         title: string;
         addItem: () => void;

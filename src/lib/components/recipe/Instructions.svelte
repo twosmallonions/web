@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Instruction } from '$lib/types/recipe';
-    import { GripVertical, ScrollTextIcon, Trash2 } from 'lucide-svelte';
+    import { GripVertical, ScrollTextIcon, Trash2 } from '@lucide/svelte';
     import RecipeListHeading from './RecipeListHeading.svelte';
     import DraggableList from './DraggableList.svelte';
 

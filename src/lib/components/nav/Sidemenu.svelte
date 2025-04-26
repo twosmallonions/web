@@ -3,7 +3,7 @@
 
     import NavLink from '$lib/components/nav/NavLink.svelte';
 
-    import { Home, Cloud, Settings, Menu, CookingPot, Plus } from 'lucide-svelte';
+    import { Home, Cloud, Settings, Menu, CookingPot, Plus } from '@lucide/svelte';
 
     export const appTitle: string = 'Two Small Onions';
 </script>
@@ -44,7 +44,7 @@
 
                 <!-- Navigation items -->
                 <nav class="p-2">
-                    <ul class="menu menu-sm">
+                    <ul class="menu menu-vertical w-full">
                         <li>
                             <a href="/create" class="btn btn-outline btn-primary btn-md">
                                 <Plus />
@@ -52,10 +52,8 @@
                             </a>
                         </li>
                         <NavLink target="/" text="Home" icon={Home} />
-
                         <NavLink target="/recipes" text="My recipes" icon={CookingPot} />
                         <div class="divider"></div>
-
                         <NavLink target="/settings" text="Settings" icon={Settings} />
                     </ul>
                 </nav>

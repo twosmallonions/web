@@ -1,7 +1,8 @@
 <script lang="ts">
+    import {type Icon as IconType} from '@lucide/svelte';
     export let target: string;
     export let text: string;
-    export let icon;
+    export let icon: typeof IconType;
 </script>
 
 <li>
