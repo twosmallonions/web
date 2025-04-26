@@ -26,7 +26,7 @@
         "@tailwindcss/typography": "0.5.16",
         "@types/eslint": "9.6.1",
         "@types/sortablejs": "1.15.8",
-        "autoprefixer": "10.4.20",
+        "autoprefixer": "10.4.21",
         "daisyui": "4.12.24",
         "eslint": "9.20.0",
         "eslint-config-prettier": "9.1.0",
