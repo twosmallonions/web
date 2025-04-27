@@ -2,11 +2,12 @@
 
 @plugin '@tailwindcss/typography';
 @plugin 'daisyui' {
-    themes: light --default, dark --prefersdark, cupcake;
+    themes: light --default, dark --prefersdark;
 }
 
 @theme {
   --flex-grow-2: 2;
+  --font-display: "Roboto", sans-serif;
 }
 
 /*

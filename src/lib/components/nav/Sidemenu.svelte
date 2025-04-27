@@ -8,13 +8,13 @@
     export const appTitle: string = 'Two Small Onions';
 </script>
 
-<div class="flex h-full bg-base-100">
+<div class="h-full bg-base-100">
     <div class="drawer lg:drawer-open">
         <!-- Drawer trigger for mobile -->
         <input type="checkbox" id="sidebar-drawer" class="drawer-toggle" />
 
         <!-- Page content -->
-        <div class="drawer-content flex flex-col">
+        <div class="drawer-content">
             <!-- Hamburger menu button (only visible on mobile) -->
             <div class="navbar w-full bg-base-200 lg:hidden">
                 <label for="sidebar-drawer" class="btn btn-square btn-ghost">
@@ -26,7 +26,7 @@
             </div>
 
             <!-- Main content -->
-            <div class="flex-1 p-4 md:p-8">
+            <div class="p-2 md:p-4 flex justify-center">
                 <slot />
             </div>
         </div>

@@ -5,8 +5,8 @@
     let { recipes, error } = data;
 </script>
 
-<div class="mx-auto max-w-7xl px-4 py-8">
-    <div class="mb-16 text-center">
+<div class="max-w-[100rem] px-4 py-8 text-center">
+    <div class="mb-16">
         <h1 class="mb-4 text-4xl font-bold">Welcome</h1>
         <p class="text-2xl text-base-content/70">What do you want to cook today?</p>
     </div>
@@ -21,7 +21,7 @@
                 </div>
             </section>
         {:else}
-            <h2>It looks like you don't have any recipes yet...</h2>
+            <p class="text-base-content/70 italic">It looks like you don't have any recipes yet...</p>
         {/if}
     {:else}
         An error occured
