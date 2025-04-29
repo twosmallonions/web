@@ -2,8 +2,8 @@ import client from "$lib";
 import type { PageLoad } from "./$types";
 
 export const load: PageLoad = async ({ fetch, parent }) => {
-    const {session} = await parent();
-    const authHeader = {authorization: `Bearer ${session?.accessToken}`}
+    const {accessToken} = await parent();
+    const authHeader = {authorization: `Bearer ${accessToken}`}
 
     const collections = await client.GET('/api/collection/', {
         fetch: fetch,
@@ -12,6 +12,7 @@ export const load: PageLoad = async ({ fetch, parent }) => {
     });
     
     if (!collections.data) {
+        console.log(collections);
         throw new Error('no data')
     }
     

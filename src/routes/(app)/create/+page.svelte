@@ -16,7 +16,7 @@
         const newRecipe = await client.POST('/api/recipe/{collection_id}', {
             params: {
                 path: {collection_id: newRecipeCollectionId},
-                header: {authorization: `Bearer ${data.session?.accessToken}`}
+                header: {authorization: `Bearer ${data.accessToken}`}
             },
             body: {
                 title: newRecipeTitle

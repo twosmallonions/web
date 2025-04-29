@@ -25,6 +25,7 @@
         "@tailwindcss/postcss": "4.1.4",
         "@tailwindcss/typography": "0.5.16",
         "@types/eslint": "9.6.1",
+        "@types/pg": "^8.11.14",
         "@types/sortablejs": "1.15.8",
         "daisyui": "5.0.28",
         "eslint": "9.25.1",
@@ -47,7 +48,11 @@
     "dependencies": {
         "@auth/core": "0.39.0",
         "@auth/sveltekit": "1.9.1",
-        "openapi-fetch": "0.13.5"
+        "jose": "^6.0.10",
+        "openapi-fetch": "0.13.5",
+        "openid-client": "^6.4.2",
+        "pg": "^8.15.6",
+        "temporal-polyfill": "^0.3.0"
     },
     "packageManager": "pnpm@10.10.0",
     "pnpm": {
