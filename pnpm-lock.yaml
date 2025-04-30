@@ -58,7 +58,7 @@ importers:
         specifier: 9.6.1
         version: 9.6.1
       '@types/pg':
-        specifier: ^8.11.14
+        specifier: 8.11.14
         version: 8.11.14
       '@types/sortablejs':
         specifier: 1.15.8
