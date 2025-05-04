@@ -1,22 +1,19 @@
 import client from "$lib";
+import { ApiErrorDescription } from "$lib/services/apiError";
+import { getCollections } from "$lib/services/collectionService";
+import { error } from "@sveltejs/kit";
 import type { PageLoad } from "./$types";
 
 export const load: PageLoad = async ({ fetch, parent }) => {
     const {accessToken} = await parent();
-    const authHeader = {authorization: `Bearer ${accessToken}`}
-
-    const collections = await client.GET('/api/collection/', {
-        fetch: fetch,
-        headers: authHeader,
-        credentials: 'omit'
-    });
+    const collections = await getCollections({accessToken, fetch});
     
-    if (!collections.data) {
-        console.log(collections);
-        throw new Error('no data')
+    if (collections instanceof ApiErrorDescription) {
+        console.log(JSON.stringify(collections.rawError));
+        error(collections.statusCode, {message: collections.humanDescription})
     }
-    
+
     return {
-        collections: collections.data
+        collections
     }
 }; 

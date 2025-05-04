@@ -1,10 +1,11 @@
 import { redirect, type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { getDbConnection, migration } from '$lib/server/db';
-import { getOrRefreshSession } from '$lib/server/oidc';
+import { getOrRefreshSession, getSessionId, setSessionCookie } from '$lib/server/oidc';
 
 const conn = await getDbConnection()
 await conn.query(migration);
+conn.release()
 
 const authorizationHandle: Handle = async ({ event, resolve }) => {
     if (
@@ -14,16 +15,22 @@ const authorizationHandle: Handle = async ({ event, resolve }) => {
         return resolve(event);
     }
 
-    const sessionId = event.cookies.get('__Host-sessionId')
+    const sessionId = getSessionId(event.cookies);
     if (!sessionId) {
         redirect(302, '/oidc/auth');
     }
 
     const session = await getOrRefreshSession(sessionId);
     if (!session) {
-        event.cookies.delete('__Host-sessionId', {path: '/'});
+        event.cookies.delete('sessionId', {path: '/'});
         redirect(302, '/oidc/auth')
     }
+
+    if (session.refreshed) {
+        setSessionCookie(session, event.cookies);
+    }
+
+
     event.locals.session = session
 
     return resolve(event);

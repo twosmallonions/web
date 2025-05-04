@@ -1,57 +1,55 @@
-import type { FullRecipe, RecipeListEntry } from '$lib/types/recipe';
-import { ApiError } from './apiError';
+import type { FullRecipe, RecipeCreate, RecipeImport, RecipeLight, RecipeUpdate } from "$lib/types/recipe";
+import { API_BASE, doApiRequest, type ApiRequestOptions, type ApiResponse, type DoApiRequestOptions } from "./base";
 
-export const getRecipes = async (
-    fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
-) => {
-    const resp = await fetch('/api/recipe/');
-    if (!resp.ok) {
-        console.log(`failed to fetch recipes: ${resp.status}\n${await resp.text()}`);
-        return [];
-    }
-    const recipes: RecipeListEntry[] = await resp.json();
-
-    return recipes;
-};
-
-export const likeRecipeRequest = async (
-    id: string,
-    fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
-) => {
-    const resp = await fetch(`/api/recipe/${id}/like`, { method: 'PUT' });
-    const recipe: FullRecipe = await resp.json();
-
-    return recipe;
-};
-
-export const createRecipeRequest = async (
-    title: string,
-    fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
-) => {
-    const resp = await fetch(`/api/recipe/`, {
+export async function createRecipe(collectionId: string, recipeCreate: RecipeCreate, options: ApiRequestOptions): Promise<ApiResponse<FullRecipe>> {
+    const requestOptions = {
+        ...options,
         method: 'POST',
-        body: JSON.stringify({ title }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+        path: API_BASE + `/recipe/${collectionId}`,
+        body: JSON.stringify(recipeCreate)
+    } satisfies DoApiRequestOptions
 
-    const recipe: FullRecipe = await resp.json();
+    return await doApiRequest(requestOptions);
+}
 
-    return recipe;
-};
+export async function getRecipe(collectionId: string, recipeId: string, options: ApiRequestOptions): Promise<ApiResponse<FullRecipe>> {
+    const requestOptions = {
+        ...options,
+        method: 'GET',
+        path: API_BASE + `/recipe/${collectionId}/${recipeId}`
+    } satisfies DoApiRequestOptions
 
-export const getRecipeBySlug = async (
-    slug: string,
-    fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
-) => {
-    const resp = await fetch(`/api/recipe/${slug}`);
+    return await doApiRequest(requestOptions);
+}
 
-    if (!resp.ok) {
-        throw new ApiError("Oops... we can' find that recipe.", resp.status);
-    }
+export async function getRecipesForUser(options: ApiRequestOptions): Promise<ApiResponse<RecipeLight[]>> {
+    const requestOptions = {
+        ...options,
+        method: 'GET',
+        path: API_BASE + `/recipe`
+    } satisfies DoApiRequestOptions
 
-    const recipe: FullRecipe = await resp.json();
+    return await doApiRequest(requestOptions);
+}
 
-    return recipe;
-};
+export async function importRecipe(recipeImport: RecipeImport, collectionId: string, options: ApiRequestOptions): Promise<ApiResponse<FullRecipe>> {
+    const requestOptions = {
+        ...options,
+        method: 'POST',
+        path: API_BASE + `/recipe/${collectionId}/import`,
+        body: JSON.stringify(recipeImport)
+    } satisfies DoApiRequestOptions
+
+    return await doApiRequest(requestOptions);
+}
+
+export async function updateRecipe(recipeUpdate: RecipeUpdate, recipeId: string, collectionId: string, options: ApiRequestOptions): Promise<ApiResponse<FullRecipe>> {
+    const requestOptions = {
+        ...options,
+        method: 'PUT',
+        path: API_BASE + `/recipe/${collectionId}/${recipeId}`,
+        body: JSON.stringify(recipeUpdate)
+    } satisfies DoApiRequestOptions
+
+    return await doApiRequest(requestOptions);
+}

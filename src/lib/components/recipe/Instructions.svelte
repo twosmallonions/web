@@ -74,5 +74,5 @@
     itemSnippet={stepListEntry}
     {edit}
     {dragAnimationDuration}
-    itemContainerClass="space-y-6"
+    itemContainerClass="space-y-3"
 />

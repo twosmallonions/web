@@ -1,5 +1,5 @@
 import { DATABASE_URL } from '$env/static/private';
-import { Pool } from 'pg';
+import { Pool, type PoolClient } from 'pg';
 
 import { Temporal } from 'temporal-polyfill';
 
@@ -38,25 +38,48 @@ export const getDbConnection = async () => {
 };
 
 export const insertAuthState = async (codeVerifier: string, state: string) => {
-    const conn = await getDbConnection();
-
-    await conn.query('INSERT INTO tso_web.auth_state VALUES ($1::text, $2::text)', [
+    await dbPool.query('INSERT INTO tso_web.auth_state VALUES ($1::text, $2::text)', [
         codeVerifier,
         state
     ]);
 };
 
-export const getDelAuthState = async (state: string) => {
-    const conn = await getDbConnection();
+export interface AuthState {
+    codeVerifier: string;
+    state: string;
+}
 
-    const result = await conn.query(
-        `SELECT code_verifier, state 
-FROM tso_web.auth_state
-WHERE state = $1::text AND expires_at > now()`,
-        [state]
-    );
+export const getDelAuthState = async (state: string): Promise<AuthState | undefined> => {
+    let conn: PoolClient | undefined;
+    try {
+        const conn = await getDbConnection();
 
-    return result.rows[0];
+        await conn.query('BEGIN');
+        var result = await conn.query(
+            `SELECT code_verifier, state 
+    FROM tso_web.auth_state
+    WHERE state = $1::text AND expires_at > now()`,
+            [state]
+        );
+
+        await conn.query('DELETE FROM tso_web.auth_state WHERE state = $1::text', [state]);
+        await conn.query('COMMIT');
+
+    } finally {
+        if (conn) {
+            console.log('conn release')
+            conn.release();
+        }
+    }
+    if (result.rows.length === 0) {
+        return undefined;
+    }
+
+    const row = result.rows[0];
+    return {
+        codeVerifier: row['code_verifier'],
+        state: row['state']
+    };
 };
 
 export interface NewUserSession {
@@ -104,9 +127,7 @@ RETURNING *`;
     const accessExpiresAt = now.add(Temporal.Duration.from({ seconds: session.accessExpiresIn }));
     const refreshExpiresAt = now.add(Temporal.Duration.from({ seconds: session.refreshExpiresIn }));
 
-    const conn = await getDbConnection();
-
-    const result = await conn.query(query, [
+    const result = await dbPool.query(query, [
         session.sessionId,
         session.accessToken,
         session.idToken,
@@ -131,13 +152,12 @@ RETURNING *`;
 
 const instantFromDate = (date: Date): Temporal.Instant => {
     return Temporal.Instant.fromEpochMilliseconds(date.valueOf());
-}
+};
 
 export const getSession = async (sessionId: string): Promise<UserSession | undefined> => {
     const query = `SELECT * FROM tso_web.session
-WHERE session_id = $1::text AND refresh_expires_at > now()`
-    const conn = await getDbConnection();
-    const result = await conn.query(query, [sessionId]);
+WHERE session_id = $1::text AND refresh_expires_at > now()`;
+    const result = await dbPool.query(query, [sessionId]);
 
     if (result.rows.length === 0) {
         return undefined;
@@ -161,5 +181,5 @@ WHERE session_id = $1::text AND refresh_expires_at > now()`
         sub: row['sub'] ?? undefined
     };
 
-    return userSession
-}
+    return userSession;
+};

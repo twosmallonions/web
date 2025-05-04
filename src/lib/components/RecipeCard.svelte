@@ -1,23 +1,48 @@
 <script lang="ts">
-    import { likeRecipeRequest } from '$lib/services/recipeService';
     import type { RecipeLight } from '$lib/types/recipe';
     import { Heart } from '@lucide/svelte';
 
+    import recipePlaceholder from '$lib/assets/recipePlaceholder.jpg';
     export const likeRecipe = async () => {
         liked = !liked;
-        await likeRecipeRequest(recipe.id, fetch);
     };
 
-    let { recipe }: { recipe: RecipeLight } = $props();
+    let coverImageUrl = $state('');
+
+    const fetchRecipeCover = async () => {
+        if (!recipe.coverThumbnail) {
+            return;
+        }
+
+        const res = await fetch(`/api/asset/${recipe.collection}/${recipe.coverThumbnail}`, {
+            headers: { authorization: `Bearer ${accessToken}` }
+        });
+
+        const coverBlob = await res.blob();
+        coverImageUrl = URL.createObjectURL(coverBlob);
+    };
+
+    let { recipe, accessToken }: { recipe: RecipeLight; accessToken: string } = $props();
     let liked = $state(recipe.liked);
 </script>
 
-<a class="card w-96 bg-base-300 shadow-xl" href={`/collection/${recipe.collection}/recipe/${recipe.id}`}>
+<a
+    class="card bg-base-300 w-80 shadow-xl"
+    href={`/collection/${recipe.collection}/recipe/${recipe.id}`}
+>
     <figure>
-        <img src="https://placehold.co/600x400" alt="placeholder" />
+        {#if recipe.coverThumbnail}
+            {#await fetchRecipeCover()}
+                <div class="skeleton aspect-square h-full w-full"></div>
+            {:then res}
+                <img src={coverImageUrl} alt="" class="rounded-md" />
+            {/await}
+        {:else}
+            <img src={recipePlaceholder} alt="" />
+        {/if}
     </figure>
     <div class="card-body">
-        <h2 class="card-title">
+        <h2 class="card-title text-left">
             {recipe.title}
         </h2>
         <p class="truncate">{recipe.description ? recipe.description : ''}</p>

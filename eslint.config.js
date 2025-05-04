@@ -3,6 +3,7 @@ import js from '@eslint/js';
 import svelte from 'eslint-plugin-svelte';
 import globals from 'globals';
 import ts from 'typescript-eslint';
+import neverthrow from 'eslint-plugin-neverthrow'
 
 export default ts.config(
     js.configs.recommended,
@@ -10,6 +11,7 @@ export default ts.config(
     ...svelte.configs['flat/recommended'],
     prettier,
     ...svelte.configs['flat/prettier'],
+    neverthrow.configs.recommended,
     {
         languageOptions: {
             globals: {
