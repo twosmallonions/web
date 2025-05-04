@@ -17,9 +17,6 @@ importers:
       jose:
         specifier: ^6.0.10
         version: 6.0.10
-      openapi-fetch:
-        specifier: 0.13.5
-        version: 0.13.5
       openid-client:
         specifier: ^6.4.2
         version: 6.4.2
@@ -1568,12 +1565,6 @@ packages:
 
   obuf@1.1.2:
     resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
-
-  openapi-fetch@0.13.5:
-    resolution: {integrity: sha512-AQK8T9GSKFREFlN1DBXTYsLjs7YV2tZcJ7zUWxbjMoQmj8dDSFRrzhLCbHPZWA1TMV3vACqfCxLEZcwf2wxV6Q==}
-
-  openapi-typescript-helpers@0.0.15:
-    resolution: {integrity: sha512-opyTPaunsklCBpTK8JGef6mfPhLSnyy5a0IN9vKtx3+4aExf+KxEqYwIy3hqkedXIB97u357uLMJsOnm3GVjsw==}
 
   openid-client@6.4.2:
     resolution: {integrity: sha512-4zBRTsKNRTyKxV5cFzl+LtamsYx/FsWhejjax+qgMkFNGtLj1gMtng2iSoJqqWUT0FHU3IUhO53aeBePg7Sp/g==}
@@ -3615,12 +3606,6 @@ snapshots:
       es-object-atoms: 1.0.0
 
   obuf@1.1.2: {}
-
-  openapi-fetch@0.13.5:
-    dependencies:
-      openapi-typescript-helpers: 0.0.15
-
-  openapi-typescript-helpers@0.0.15: {}
 
   openid-client@6.4.2:
     dependencies:
