@@ -18,8 +18,8 @@ importers:
         specifier: ^6.0.10
         version: 6.0.10
       openapi-fetch:
-        specifier: 0.13.5
-        version: 0.13.5
+        specifier: 0.13.6
+        version: 0.13.6
       openid-client:
         specifier: ^6.4.2
         version: 6.4.2
@@ -1569,8 +1569,8 @@ packages:
   obuf@1.1.2:
     resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
 
-  openapi-fetch@0.13.5:
-    resolution: {integrity: sha512-AQK8T9GSKFREFlN1DBXTYsLjs7YV2tZcJ7zUWxbjMoQmj8dDSFRrzhLCbHPZWA1TMV3vACqfCxLEZcwf2wxV6Q==}
+  openapi-fetch@0.13.6:
+    resolution: {integrity: sha512-B4lblfkFwaSGTSj5EuwmPLiR18Pblc7wu441CUrEVfaEuuu+bl4nYDrPawAnyN8Ka+Cvjfb4LlwqWJXpCbqgdA==}
 
   openapi-typescript-helpers@0.0.15:
     resolution: {integrity: sha512-opyTPaunsklCBpTK8JGef6mfPhLSnyy5a0IN9vKtx3+4aExf+KxEqYwIy3hqkedXIB97u357uLMJsOnm3GVjsw==}
@@ -3616,7 +3616,7 @@ snapshots:
 
   obuf@1.1.2: {}
 
-  openapi-fetch@0.13.5:
+  openapi-fetch@0.13.6:
     dependencies:
       openapi-typescript-helpers: 0.0.15
 
