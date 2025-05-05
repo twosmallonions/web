@@ -16,7 +16,7 @@ importers:
         version: 1.9.1(@sveltejs/kit@2.20.8(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.4(@types/node@22.15.3)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.6.0)))(svelte@5.28.2)(vite@6.3.4(@types/node@22.15.3)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.6.0)))(svelte@5.28.2)
       jose:
         specifier: ^6.0.10
-        version: 6.0.10
+        version: 6.0.11
       openid-client:
         specifier: ^6.4.2
         version: 6.4.2
@@ -1369,8 +1369,8 @@ packages:
     resolution: {integrity: sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==}
     hasBin: true
 
-  jose@6.0.10:
-    resolution: {integrity: sha512-skIAxZqcMkOrSwjJvplIPYrlXGpxTPnro2/QWTDCxAdWQrSTV5/KqspMWmi5WAx5+ULswASJiZ0a+1B/Lxt9cw==}
+  jose@6.0.11:
+    resolution: {integrity: sha512-QxG7EaliDARm1O1S8BGakqncGT9s25bKL1WSf6/oa17Tkqwi8D2ZNglqCF+DsYF88/rV66Q/Q2mFAy697E1DUg==}
 
   js-yaml@4.1.0:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
@@ -2200,7 +2200,7 @@ snapshots:
   '@auth/core@0.39.0':
     dependencies:
       '@panva/hkdf': 1.2.1
-      jose: 6.0.10
+      jose: 6.0.11
       oauth4webapi: 3.3.0
       preact: 10.24.3
       preact-render-to-string: 6.5.11(preact@10.24.3)
@@ -3448,7 +3448,7 @@ snapshots:
 
   jiti@2.4.2: {}
 
-  jose@6.0.10: {}
+  jose@6.0.11: {}
 
   js-yaml@4.1.0:
     dependencies:
@@ -3609,7 +3609,7 @@ snapshots:
 
   openid-client@6.4.2:
     dependencies:
-      jose: 6.0.10
+      jose: 6.0.11
       oauth4webapi: 3.5.0
 
   optionator@0.9.4:
