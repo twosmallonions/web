@@ -4,8 +4,10 @@
     import NavLink from '$lib/components/nav/NavLink.svelte';
 
     import { Home, Cloud, Settings, Menu, CookingPot, Plus } from '@lucide/svelte';
+    import type { Snippet } from 'svelte';
 
     export const appTitle: string = 'Two Small Onions';
+    let { child }: {child: Snippet} = $props();
 </script>
 
 <div class="h-full bg-base-100">
@@ -27,7 +29,7 @@
 
             <!-- Main content -->
             <div class="p-2 md:p-4 flex justify-center">
-                <slot />
+                {@render child()}
             </div>
         </div>
         <!-- Sidebar content -->
@@ -44,17 +46,17 @@
 
                 <!-- Navigation items -->
                 <nav class="p-2">
-                    <ul class="menu menu-vertical w-full">
+                    <ul class="menu menu-vertical w-full gap-2">
                         <li>
                             <a href="/create" class="btn btn-outline btn-primary btn-md">
                                 <Plus />
                                 <span>Create Recipe</span>
                             </a>
                         </li>
-                        <NavLink target="/" text="Home" icon={Home} />
-                        <NavLink target="/recipes" text="My recipes" icon={CookingPot} />
+                        <NavLink target="/" text="Home" Icon={Home} />
+                        <NavLink target="/recipes" text="My recipes" Icon={CookingPot} />
                         <div class="divider"></div>
-                        <NavLink target="/settings" text="Settings" icon={Settings} />
+                        <NavLink target="/settings" text="Settings" Icon={Settings} />
                     </ul>
                 </nav>
             </div>

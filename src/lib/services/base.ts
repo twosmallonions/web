@@ -1,3 +1,4 @@
+import { getContext } from 'svelte';
 import { ApiBadRequestError, ApiError, ApiErrorDescription, ApiNotFoundError, ApiUnknownError, ApiValidationError } from './apiError';
 
 export interface FetchObject {
@@ -27,11 +28,10 @@ export async function doApiRequest<T>(options: DoApiRequestOptions): Promise<Api
     const timeoutMs = options.timeoutMs ?? 10000;
     const headers = new Headers(options.headers);
     headers.set('authorization', `Bearer ${options.accessToken}`);
-    if (!headers.get('content-type')) {
+    if (!headers.get('content-type') && options.body) {
         headers.set('content-type', 'application/json')
     }
 
-    console.log(headers)
     const res = await options.fetch(options.path, {
         body: options.body,
         method: options.method,
@@ -40,11 +40,20 @@ export async function doApiRequest<T>(options: DoApiRequestOptions): Promise<Api
         headers
     });
 
-    if (res.ok) {
+    if (!res.ok) {
+        return await mapError(res);
+    }
+
+    if (res.status === 204) {
+        return {} as T;
+    }
+
+    const contentType = res.headers.get('content-type') 
+    if (contentType && contentType.toLowerCase() === 'application/json') {
         return (await res.json()) as T;
     }
 
-    return await mapError(res);
+    return await res.text() as T;
 }
 
 async function mapError(res: Response): Promise<ApiErrorDescription> {

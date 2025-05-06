@@ -1,12 +1,10 @@
-import client from '$lib';
 import { ApiErrorDescription } from '$lib/services/apiError';
 import { getRecipesForUser } from '$lib/services/recipeService';
 import { error } from '@sveltejs/kit';
-import type { PageLoad } from './$types';
+import type { PageServerLoad } from './$types';
 
-export const load: PageLoad = async ({ fetch, parent }) => {
+export const load: PageServerLoad = async ({ fetch, parent }) => {
     const { accessToken } = await parent();
-    const authHeader = { authorization: `Bearer ${accessToken}` };
 
     const recipes = await getRecipesForUser({accessToken, fetch})
 

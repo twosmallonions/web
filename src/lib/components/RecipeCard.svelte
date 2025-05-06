@@ -9,19 +9,6 @@
 
     let coverImageUrl = $state('');
 
-    const fetchRecipeCover = async () => {
-        if (!recipe.coverThumbnail) {
-            return;
-        }
-
-        const res = await fetch(`/api/asset/${recipe.collection}/${recipe.coverThumbnail}`, {
-            headers: { authorization: `Bearer ${accessToken}` }
-        });
-
-        const coverBlob = await res.blob();
-        coverImageUrl = URL.createObjectURL(coverBlob);
-    };
-
     let { recipe, accessToken }: { recipe: RecipeLight; accessToken: string } = $props();
     let liked = $state(recipe.liked);
 </script>
@@ -32,11 +19,7 @@
 >
     <figure>
         {#if recipe.coverThumbnail}
-            {#await fetchRecipeCover()}
-                <div class="skeleton aspect-square h-full w-full"></div>
-            {:then res}
-                <img src={coverImageUrl} alt="" class="rounded-md" />
-            {/await}
+            <img src={`/collection/${recipe.collection}/asset/${recipe.coverThumbnail}`} alt="" class="rounded-md w-full aspect-square" />
         {:else}
             <img src={recipePlaceholder} alt="" />
         {/if}

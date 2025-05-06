@@ -7,26 +7,20 @@
         Icon,
         Pencil,
         PlusCircle,
-
         Trash,
-
         Upload
-
     } from '@lucide/svelte';
     import recipePlaceholder from '$lib/assets/recipePlaceholder.jpg';
-    import { Temporal } from 'temporal-polyfill';
     import {
         mapRecipeFullToRecipeUpdate,
         type Ingredient,
         type Instruction
     } from '$lib/types/recipe.js';
-    import { updateRecipe as serviceUpdateRecipe } from '$lib/services/recipeService.js';
-    import { ApiError, ApiErrorDescription } from '$lib/services/apiError.js';
     import Instructions from '$lib/components/recipe/Instructions.svelte';
     import Ingredients from '$lib/components/recipe/Ingredients.svelte';
     import MetadataDisplay from '$lib/components/recipe/MetadataDisplay.svelte';
     import MetadataTimeDisplay from '$lib/components/recipe/MetadataTimeDisplay.svelte';
-    import { updated } from '$app/state';
+    import { formatDate } from '$lib/formatUtil.js';
 
     let { data } = $props();
     let { recipeProp, accessToken } = data;
@@ -51,20 +45,6 @@
         });
     };
 
-
-    const fetchRecipeCover = async () => {
-        if (!recipe.coverImage) {
-            return;
-        }
-
-        const res = await fetch(recipe.coverImage, {
-            headers: { authorization: `Bearer ${data.accessToken}` }
-        });
-
-        const coverBlob = await res.blob();
-        coverImageUrl = URL.createObjectURL(coverBlob);
-    };
-
     let isTruncated = $derived.by(() => {
         return recipe.note.length > 700;
     });
@@ -83,26 +63,21 @@
         noteExpandButtonText = isExpanded ? 'Show Less' : 'Show More';
     };
 
-    const formatDate = (instantStr: string): string => {
-        let temporalInstant = Temporal.Instant.from(instantStr);
-        return temporalInstant.toLocaleString('de-de', { timeStyle: 'short', dateStyle: 'medium' });
-    };
 
     let editMode = $state(false);
     let updatedRecipe = $state(mapRecipeFullToRecipeUpdate(recipeProp));
     let updateError: string | undefined = $state();
     const updateRecipe = async () => {
-        await uploadCover();
-        const res = await serviceUpdateRecipe(updatedRecipe, recipe.id, recipe.collection, {
-            accessToken,
-            fetch
+        const res = await fetch(`/collection/${recipe.collection}/recipe/${recipe.id}/update`, {
+            body: JSON.stringify(updatedRecipe),
+            headers: { 'content-type': 'application/json' },
+            method: 'PUT',
+            credentials: 'include'
         });
-        if (res instanceof ApiErrorDescription) {
-            console.error(res);
-            updateError = res.humanDescription;
-            return;
+        if (!res.ok) {
+            console.error(await res.text())
         }
-        recipe = res;
+        recipe = await res.json();
         updatedRecipe = mapRecipeFullToRecipeUpdate(recipe);
         editMode = false;
     };
@@ -155,13 +130,13 @@
 </script>
 
 <div>
-    <div class="grid max-w-[90rem] grid-cols-1 gap-4 lg:grid-cols-8">
-        <div class="aspect-square w-full place-self-center lg:col-span-3 lg:max-h-[800px] relative">
+    <div class="grid max-w-[90rem] grid-cols-1 gap-4 lg:grid-cols-16">
+        <div class="relative aspect-square w-full place-self-center lg:col-span-6 lg:max-h-[800px]">
             {@render image()}
         </div>
-        <div class="lg:col-span-5">{@render metadata()}</div>
-        <div class="lg:col-span-2">{@render ingredients()}</div>
-        <div class="lg:col-span-6">{@render instructions()}</div>
+        <div class="lg:col-span-10">{@render metadata()}</div>
+        <div class="lg:col-span-5">{@render ingredients()}</div>
+        <div class="lg:col-span-11">{@render instructions()}</div>
     </div>
     <div class="divider"></div>
     <div class="text-base-content/70 flex flex-row gap-5 text-sm">
@@ -192,27 +167,37 @@
 
 {#snippet image()}
     {#if recipe.coverImage}
-        {#await fetchRecipeCover()}
-            <div class="skeleton aspect-square h-full w-full"></div>
-        {:then}
-            <img src={coverImageUrl} alt="" class="rounded-md" />
-        {/await}
+        <img
+            src={`/collection/${recipe.collection}/asset/${recipe.coverImage}`}
+            alt=""
+            class="rounded-md"
+        />
     {:else}
         <img src={recipePlaceholder} alt="" class="rounded-md" />
     {/if}
 
     {#if editMode}
-    <div class="absolute bottom-1 right-1 flex flex-row gap-2">
-        <button class="btn btn-circle btn-accent" aria-label="Upload Recipe Image" onclick={() => recipeCoverInputElement?.click()}>
-            <Upload />
-        </button>
-        <input type="file" class="hidden" bind:files={recipeCoverImage} bind:this={recipeCoverInputElement} accept="image/*" >
-        {#if recipe.coverImage}
-            <button class="btn btn-circle btn-error" aria-label="Delete Recipe Image">
-                <Trash />
+        <div class="absolute right-1 bottom-1 flex flex-row gap-2">
+            <button
+                class="btn btn-circle btn-accent"
+                aria-label="Upload Recipe Image"
+                onclick={() => recipeCoverInputElement?.click()}
+            >
+                <Upload />
             </button>
-        {/if}
-    </div>
+            <input
+                type="file"
+                class="hidden"
+                bind:files={recipeCoverImage}
+                bind:this={recipeCoverInputElement}
+                accept="image/*"
+            />
+            {#if recipe.coverImage}
+                <button class="btn btn-circle btn-error" aria-label="Delete Recipe Image">
+                    <Trash />
+                </button>
+            {/if}
+        </div>
     {/if}
 {/snippet}
 
