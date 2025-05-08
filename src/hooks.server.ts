@@ -3,15 +3,12 @@ import { sequence } from '@sveltejs/kit/hooks';
 import { getDbConnection, migration } from '$lib/server/db';
 import { getOrRefreshSession, getSessionId, setSessionCookie } from '$lib/server/oidc';
 
-const conn = await getDbConnection()
+const conn = await getDbConnection();
 await conn.query(migration);
-conn.release()
+conn.release();
 
 const authorizationHandle: Handle = async ({ event, resolve }) => {
-    if (
-        event.url.pathname.startsWith('/oidc') ||
-        event.url.pathname.startsWith('/api')
-    ) {
+    if (event.url.pathname.startsWith('/oidc') || event.url.pathname.startsWith('/api')) {
         return resolve(event);
     }
 
@@ -22,16 +19,15 @@ const authorizationHandle: Handle = async ({ event, resolve }) => {
 
     const session = await getOrRefreshSession(sessionId);
     if (!session) {
-        event.cookies.delete('sessionId', {path: '/'});
-        redirect(302, '/oidc/auth')
+        event.cookies.delete('sessionId', { path: '/' });
+        redirect(302, '/oidc/auth');
     }
 
     if (session.refreshed) {
         setSessionCookie(session, event.cookies);
     }
 
-
-    event.locals.session = session
+    event.locals.session = session;
 
     return resolve(event);
 };

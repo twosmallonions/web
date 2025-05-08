@@ -24,11 +24,11 @@ export type ApiResponse<T> = T | ApiErrorDescription;
 
 export const API_BASE = "/api"; 
 
-export async function doApiRequest<T>(options: DoApiRequestOptions): Promise<ApiResponse<T>> {
+export async function doApiRequest<T>(options: DoApiRequestOptions, autoSetContentTypeJson=true): Promise<ApiResponse<T>> {
     const timeoutMs = options.timeoutMs ?? 10000;
     const headers = new Headers(options.headers);
     headers.set('authorization', `Bearer ${options.accessToken}`);
-    if (!headers.get('content-type') && options.body) {
+    if (!headers.get('content-type') && options.body && autoSetContentTypeJson) {
         headers.set('content-type', 'application/json')
     }
 
@@ -68,6 +68,7 @@ async function mapError(res: Response): Promise<ApiErrorDescription> {
 
     if (res.status === 400) {
         const body = await res.json();
+        console.log(body);
         return new ApiBadRequestError(body);
     }
 

@@ -21,29 +21,15 @@
     import MetadataDisplay from '$lib/components/recipe/MetadataDisplay.svelte';
     import MetadataTimeDisplay from '$lib/components/recipe/MetadataTimeDisplay.svelte';
     import { formatDate } from '$lib/formatUtil.js';
+    import { enhance } from '$app/forms';
 
     let { data } = $props();
-    let { recipeProp, accessToken } = data;
+    let { recipeProp } = data;
     let recipe = $state(recipeProp);
     let recipeCoverImage: FileList | undefined = $state();
     let recipeCoverInputElement: HTMLInputElement | undefined = $state();
+    let recipeCoverFormSubmit: HTMLButtonElement | undefined = $state();
     let coverImageUrl = $state('');
-    const uploadCover = async () => {
-        if (recipeCoverImage === undefined) {
-            return;
-        }
-
-        if (recipeCoverImage.length == 0) {
-            return;
-        }
-        const formData = new FormData();
-        formData.append('file', recipeCoverImage[0]);
-        await fetch(`/api/recipe/${recipe.collection}/${recipe.id}/cover`, {
-            method: 'PUT',
-            body: formData,
-            headers: { authorization: `Bearer ${data.accessToken}` }
-        });
-    };
 
     let isTruncated = $derived.by(() => {
         return recipe.note.length > 700;
@@ -63,7 +49,6 @@
         noteExpandButtonText = isExpanded ? 'Show Less' : 'Show More';
     };
 
-
     let editMode = $state(false);
     let updatedRecipe = $state(mapRecipeFullToRecipeUpdate(recipeProp));
     let updateError: string | undefined = $state();
@@ -75,7 +60,7 @@
             credentials: 'include'
         });
         if (!res.ok) {
-            console.error(await res.text())
+            console.error(await res.text());
         }
         recipe = await res.json();
         updatedRecipe = mapRecipeFullToRecipeUpdate(recipe);
@@ -185,13 +170,33 @@
             >
                 <Upload />
             </button>
-            <input
-                type="file"
-                class="hidden"
-                bind:files={recipeCoverImage}
-                bind:this={recipeCoverInputElement}
-                accept="image/*"
-            />
+
+            <form
+                action="?/image"
+                enctype="multipart/form-data"
+                method="POST"
+                use:enhance={() => {
+                    return async ({result}) => {
+                        // @ts-expect-error
+                        if (!result.data || !result.data.coverImage) {
+                            return;
+                        }
+                        // @ts-expect-error
+                        recipe.coverImage = result.data.coverImage
+                    }
+                }}
+            >
+                <input
+                    type="file"
+                    class="hidden"
+                    onchange={() => recipeCoverFormSubmit?.click()}
+                    bind:this={recipeCoverInputElement}
+                    accept="image/*"
+                    name="image"
+                />
+
+                <button type="submit" class="hidden" bind:this={recipeCoverFormSubmit}></button>
+            </form>
             {#if recipe.coverImage}
                 <button class="btn btn-circle btn-error" aria-label="Delete Recipe Image">
                     <Trash />
