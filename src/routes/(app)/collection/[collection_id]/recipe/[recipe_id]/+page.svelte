@@ -67,6 +67,11 @@
         editMode = false;
     };
 
+    const cancelUpdate = async () => {
+        editMode = false;
+        updatedRecipe = mapRecipeFullToRecipeUpdate(recipe);
+    }
+
     const deleteIngredient = (index: number) => {
         updatedRecipe.ingredients = [
             ...updatedRecipe.ingredients.slice(0, index),
@@ -115,13 +120,17 @@
 </script>
 
 <div>
-    <div class="grid max-w-[90rem] grid-cols-1 gap-4 lg:grid-cols-16">
-        <div class="relative aspect-square w-full place-self-center lg:col-span-6 lg:max-h-[800px]">
-            {@render image()}
+    <div class="flex max-w-[120rem] flex-col gap-3">
+        <div class="flex flex-col md:flex-row gap-5">
+            <div class="flex-5/12">
+                {@render image()}
+            </div>
+            <div class="flex-7/12">{@render metadata()}</div>
         </div>
-        <div class="lg:col-span-10">{@render metadata()}</div>
-        <div class="lg:col-span-5">{@render ingredients()}</div>
-        <div class="lg:col-span-11">{@render instructions()}</div>
+        <div class="flex flex-col md:flex-row gap-5">
+            <div class="flex-4/12 sticky top-2 self-start h-auto">{@render ingredients()}</div>
+            <div class="flex-8/12">{@render instructions()}</div>
+        </div>
     </div>
     <div class="divider"></div>
     <div class="text-base-content/70 flex flex-row gap-5 text-sm">
@@ -156,6 +165,8 @@
             src={`/collection/${recipe.collection}/asset/${recipe.coverImage}`}
             alt=""
             class="rounded-md"
+            width="700"
+            height="700"
         />
     {:else}
         <img src={recipePlaceholder} alt="" class="rounded-md" />
@@ -176,14 +187,14 @@
                 enctype="multipart/form-data"
                 method="POST"
                 use:enhance={() => {
-                    return async ({result}) => {
+                    return async ({ result }) => {
                         // @ts-expect-error
                         if (!result.data || !result.data.coverImage) {
                             return;
                         }
                         // @ts-expect-error
-                        recipe.coverImage = result.data.coverImage
-                    }
+                        recipe.coverImage = result.data.coverImage;
+                    };
                 }}
             >
                 <input
@@ -247,7 +258,7 @@
             {@render note()}
         </div>
         <div class="flex justify-between">
-            {#if recipe.originalUrl}
+            {#if recipe.originalUrl && !editMode}
                 <a
                     class="btn btn-soft btn-accent"
                     href={recipe.originalUrl}
@@ -260,6 +271,9 @@
                 onclick={() => (editMode ? updateRecipe() : (editMode = true))}
                 >{editMode ? 'Save Recipe' : 'Edit Recipe'}</button
             >
+            {#if editMode}
+                <button class="btn btn-soft btn-error" onclick={cancelUpdate}>Cancel</button>
+            {/if}
         </div>
     </div>
 {/snippet}

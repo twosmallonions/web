@@ -6,7 +6,7 @@
     let { collections } = data;
 </script>
 
-<div class="min-h-screen w-[90%] p-4 md:p-8 xl:w-5xl">
+<div class="w-[90%] xl:w-5xl">
     <!-- Header Section -->
     <div class="mb-12 text-center">
         <h1 class="mb-2 text-2xl font-bold md:text-3xl">Add New Recipe</h1>

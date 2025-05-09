@@ -61,7 +61,7 @@ export const actions = {
 
         return redirect(303, `/collection/${newRecipe.collection}/recipe/${newRecipe.id}`);
     },
-    create: async ({ request, locals }) => {
+    create: async ({ request, locals, fetch }) => {
         const data = await request.formData();
         const recipeTitle = data.get('recipeTitle');
         const collectionId = data.get('collectionId');

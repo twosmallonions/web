@@ -14,7 +14,7 @@
 </script>
 
 <a
-    class="card bg-base-300 w-80 shadow-xl"
+    class="card bg-base-300 shadow-xl w-full"
     href={`/collection/${recipe.collection}/recipe/${recipe.id}`}
 >
     <figure>

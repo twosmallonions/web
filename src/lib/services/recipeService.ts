@@ -22,11 +22,11 @@ export async function getRecipe(collectionId: string, recipeId: string, options:
     return await doApiRequest(requestOptions);
 }
 
-export async function getRecipesForUser(options: ApiRequestOptions): Promise<ApiResponse<RecipeLight[]>> {
+export async function getRecipesForUser(sortField: string, options: ApiRequestOptions): Promise<ApiResponse<RecipeLight[]>> {
     const requestOptions = {
         ...options,
         method: 'GET',
-        path: API_BASE + `/recipe`
+        path: API_BASE + `/recipe?field=${sortField}`
     } satisfies DoApiRequestOptions
 
     return await doApiRequest(requestOptions);
