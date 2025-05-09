@@ -16,7 +16,7 @@
         "gen:openapi": "npx openapi-typescript 'http://localhost:8000/openapi.json' -o src/lib/types/openapi.d.ts"
     },
     "devDependencies": {
-        "@eslint/js": "9.25.1",
+        "@eslint/js": "9.26.0",
         "@lucide/svelte": "0.509.0",
         "@playwright/test": "1.52.0",
         "@sveltejs/adapter-node": "5.2.12",
@@ -28,7 +28,7 @@
         "@types/pg": "8.15.1",
         "@types/sortablejs": "1.15.8",
         "daisyui": "5.0.30",
-        "eslint": "9.25.1",
+        "eslint": "9.26.0",
         "eslint-config-prettier": "10.1.5",
         "eslint-plugin-import": "2.31.0",
         "eslint-plugin-svelte": "3.5.1",
