@@ -47,7 +47,7 @@
     },
     "dependencies": {
         "@auth/core": "0.39.0",
-        "@auth/sveltekit": "1.9.1",
+        "@auth/sveltekit": "1.9.2",
         "jose": "^6.0.10",
         "openid-client": "^6.4.2",
         "pg": "^8.15.6",
