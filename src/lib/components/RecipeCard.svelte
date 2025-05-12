@@ -9,17 +9,21 @@
 
     let coverImageUrl = $state('');
 
-    let { recipe, accessToken }: { recipe: RecipeLight; accessToken: string } = $props();
+    let { recipe }: { recipe: RecipeLight } = $props();
     let liked = $state(recipe.liked);
 </script>
 
 <a
-    class="card bg-base-300 shadow-xl w-full"
+    class="card bg-base-300 w-full shadow-xl"
     href={`/collection/${recipe.collection}/recipe/${recipe.id}`}
 >
     <figure>
         {#if recipe.coverThumbnail}
-            <img src={`/collection/${recipe.collection}/asset/${recipe.coverThumbnail}`} alt="" class="rounded-md w-full aspect-square" />
+            <img
+                src={`/collection/${recipe.collection}/asset/${recipe.coverThumbnail}`}
+                alt=""
+                class="aspect-square w-full rounded-md"
+            />
         {:else}
             <img src={recipePlaceholder} alt="" />
         {/if}

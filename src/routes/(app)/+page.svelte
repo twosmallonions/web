@@ -1,13 +1,11 @@
 <script lang="ts">
     import { goto, invalidate } from '$app/navigation';
+    import { page } from '$app/state';
     import RecipeCard from '$lib/components/RecipeCard.svelte';
-    import type { RecipeLight } from '$lib/types/recipe.js';
-    import { ArrowDown, ArrowDownWideNarrow, ArrowUp, Search } from '@lucide/svelte';
-    import { json } from '@sveltejs/kit';
+    import { ArrowDown, ArrowDownNarrowWide, ArrowDownWideNarrow, ArrowUp, ArrowUpWideNarrow, Search } from '@lucide/svelte';
 
     let { data } = $props();
-    let { recipeProps, accessToken } = data;
-    let recipes = $derived(recipeProps)
+    let recipes = $derived(data.recipeProps)
     const SortFields = {
         title: 'Alphabetical',
         updated_at: 'Last Modified',
@@ -27,20 +25,26 @@
         if (detailsSortFieldElement) {
             detailsSortFieldElement.removeAttribute('open');
         }
-        await goto(`?field=${key}`, { replaceState: false, keepFocus: true, noScroll: true });
+        let params = page.url.searchParams;
+        params.set('field', key)
+        await goto(`?${params.toString()}`, {invalidateAll: true})
     }
 
-    function changeSortOrder() {
-        if (sortOrder === SortOrder.ASC) {
-            sortOrder = SortOrder.DESC;
+
+    async function changeSortOrder() {
+        let params = page.url.searchParams;
+        console.log(sortDesc);
+        if (sortDesc) {
+            params.set('order', 'desc')
         } else {
-            sortOrder = SortOrder.ASC;
+            params.set('order', 'asc')
         }
+        await goto(`?${params.toString()}`, {invalidateAll: true});
     }
 
     let detailsSortFieldElement: HTMLDetailsElement | undefined = $state();
-    let sortField: SortFieldKey = $state('title');
-    let sortOrder = $state(SortOrder.ASC);
+    let sortField: SortFieldKey = $state(page.url.searchParams.get('field') as SortFieldKey ?? 'created_at');
+    let sortDesc = $state((page.url.searchParams.get('order') ?? 'desc') === 'desc');
 </script>
 
 <div class="flex h-full w-full flex-col gap-4">
@@ -50,11 +54,12 @@
             <input type="text" placeholder="Search For a Recipe" />
             <span>Search For a Recipe</span>
         </label>
+        {sortDesc}
         <div class="flex flex-row justify-end">
             <label class="swap swap-rotate btn btn-circle">
-                <input type="checkbox" />
-                <ArrowUp class="swap-on" />
-                <ArrowDown class="swap-off" />
+                <input type="checkbox" onchange={changeSortOrder} bind:checked={sortDesc} />
+                <ArrowDownNarrowWide class="swap-on"/>
+                <ArrowUpWideNarrow class="swap-off"/>
             </label>
             <details class="dropdown" bind:this={detailsSortFieldElement}>
                 <summary class="btn p-5"><ArrowDownWideNarrow /> {SortFields[sortField]}</summary>
@@ -77,7 +82,7 @@
                     <div class="grid grid-cols-1 gap-3 md:grid-cols-3 xl:grid-cols-5">
                         {#key recipes}
                             {#each recipes as recipe (recipe.id)}
-                                <RecipeCard {recipe} {accessToken} />
+                                <RecipeCard {recipe} />
                             {/each}
                         {/key}
                     </div>
