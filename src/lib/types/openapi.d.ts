@@ -226,6 +226,13 @@ export interface components {
             /** Id */
             id: string | null;
         };
+        /** ListResponse[RecipeLight] */
+        ListResponse_RecipeLight_: {
+            /** Cursor */
+            cursor: string | null;
+            /** Data */
+            data: components["schemas"]["RecipeLight"][];
+        };
         /** RecipeCreate */
         RecipeCreate: {
             /** Title */
@@ -356,6 +363,11 @@ export interface components {
             /** Coverthumbnail */
             coverThumbnail: string | null;
         };
+        /**
+         * RecipeSortField
+         * @enum {string}
+         */
+        RecipeSortField: "title" | "updated_at" | "created_at";
         /** RecipeUpdate */
         RecipeUpdate: {
             /** Title */
@@ -389,6 +401,11 @@ export interface components {
              */
             ingredients: components["schemas"]["IngredientUpdate"][];
         };
+        /**
+         * SortOrder
+         * @enum {string}
+         */
+        SortOrder: "DESC" | "ASC";
         /** ValidationError */
         ValidationError: {
             /** Location */
@@ -410,9 +427,7 @@ export interface operations {
     get_collections_for_user_api_collection__get: {
         parameters: {
             query?: never;
-            header?: {
-                authorization?: string | null;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -427,23 +442,12 @@ export interface operations {
                     "application/json": components["schemas"]["CollectionFull"][];
                 };
             };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
         };
     };
     create_collection_api_collection__post: {
         parameters: {
             query?: never;
-            header?: {
-                authorization?: string | null;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -475,10 +479,14 @@ export interface operations {
     };
     get_all_recipes_for_user_api_recipe__get: {
         parameters: {
-            query?: never;
-            header?: {
-                authorization?: string | null;
+            query?: {
+                order?: components["schemas"]["SortOrder"];
+                field?: components["schemas"]["RecipeSortField"];
+                search?: string | null;
+                limit?: number;
+                cursor?: string | null;
             };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -490,7 +498,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RecipeLight"][];
+                    "application/json": components["schemas"]["ListResponse_RecipeLight_"];
                 };
             };
             /** @description Validation Error */
@@ -507,9 +515,7 @@ export interface operations {
     get_recipe_by_id_api_recipe__collection_id___recipe_id__get: {
         parameters: {
             query?: never;
-            header?: {
-                authorization?: string | null;
-            };
+            header?: never;
             path: {
                 recipe_id: string;
                 collection_id: string;
@@ -541,9 +547,7 @@ export interface operations {
     update_recipe_api_recipe__collection_id___recipe_id__put: {
         parameters: {
             query?: never;
-            header?: {
-                authorization?: string | null;
-            };
+            header?: never;
             path: {
                 collection_id: string;
                 recipe_id: string;
@@ -579,9 +583,7 @@ export interface operations {
     create_recipe_in_collection_api_recipe__collection_id__post: {
         parameters: {
             query?: never;
-            header?: {
-                authorization?: string | null;
-            };
+            header?: never;
             path: {
                 collection_id: string;
             };
@@ -616,9 +618,7 @@ export interface operations {
     import_recipe_from_url_api_recipe__collection_id__import_post: {
         parameters: {
             query?: never;
-            header?: {
-                authorization?: string | null;
-            };
+            header?: never;
             path: {
                 collection_id: string;
             };
@@ -653,9 +653,7 @@ export interface operations {
     add_thumbnail_to_recipe_api_recipe__collection_id___recipe_id__cover_put: {
         parameters: {
             query?: never;
-            header?: {
-                authorization?: string | null;
-            };
+            header?: never;
             path: {
                 collection_id: string;
                 recipe_id: string;
@@ -691,9 +689,7 @@ export interface operations {
     get_asset_api_asset__collection_id___asset_id__get: {
         parameters: {
             query?: never;
-            header?: {
-                authorization?: string | null;
-            };
+            header?: never;
             path: {
                 collection_id: string;
                 asset_id: string;

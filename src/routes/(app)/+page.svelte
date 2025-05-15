@@ -1,11 +1,18 @@
 <script lang="ts">
-    import { goto, invalidate } from '$app/navigation';
+    import { goto } from '$app/navigation';
     import { page } from '$app/state';
     import RecipeCard from '$lib/components/RecipeCard.svelte';
-    import { ArrowDown, ArrowDownNarrowWide, ArrowDownWideNarrow, ArrowUp, ArrowUpWideNarrow, Search } from '@lucide/svelte';
+    import {
+        ArrowDownNarrowWide,
+        ArrowDownWideNarrow,
+        ArrowUpWideNarrow,
+        Search
+    } from '@lucide/svelte';
 
     let { data } = $props();
-    let recipes = $derived(data.recipeProps)
+    let asdasd = data.recipeProps
+    let recipes = $state(asdasd)
+    let cursor = $derived(data.cursor)
     const SortFields = {
         title: 'Alphabetical',
         updated_at: 'Last Modified',
@@ -14,11 +21,6 @@
 
     type SortFieldKey = keyof typeof SortFields;
 
-    enum SortOrder {
-        ASC = 1,
-        DESC
-    }
-
     async function setSortField(key: SortFieldKey) {
         sortField = key;
 
@@ -26,24 +28,40 @@
             detailsSortFieldElement.removeAttribute('open');
         }
         let params = page.url.searchParams;
-        params.set('field', key)
-        await goto(`?${params.toString()}`, {invalidateAll: true})
-    }
+        params.set('field', key);
+        params.delete('cursor');
+        await goto(`?${params.toString()}`, { invalidateAll: true });
 
+        recipes = data.recipeProps;
+    }
 
     async function changeSortOrder() {
         let params = page.url.searchParams;
         console.log(sortDesc);
         if (sortDesc) {
-            params.set('order', 'desc')
+            params.set('order', 'desc');
         } else {
-            params.set('order', 'asc')
+            params.set('order', 'asc');
         }
-        await goto(`?${params.toString()}`, {invalidateAll: true});
+        params.delete('cursor');
+        await goto(`?${params.toString()}`, { invalidateAll: true });
+
+        recipes = data.recipeProps;
+    }
+
+    async function nextPage() {
+        let params = page.url.searchParams;
+        params.set('cursor', cursor);
+        await goto(`?${params.toString()}`, { invalidateAll: true });
+        console.log(data.recipeProps)
+        
+        recipes.push(...data.recipeProps)
     }
 
     let detailsSortFieldElement: HTMLDetailsElement | undefined = $state();
-    let sortField: SortFieldKey = $state(page.url.searchParams.get('field') as SortFieldKey ?? 'created_at');
+    let sortField: SortFieldKey = $state(
+        (page.url.searchParams.get('field') as SortFieldKey) ?? 'created_at'
+    );
     let sortDesc = $state((page.url.searchParams.get('order') ?? 'desc') === 'desc');
 </script>
 
@@ -58,8 +76,8 @@
         <div class="flex flex-row justify-end">
             <label class="swap swap-rotate btn btn-circle">
                 <input type="checkbox" onchange={changeSortOrder} bind:checked={sortDesc} />
-                <ArrowDownNarrowWide class="swap-on"/>
-                <ArrowUpWideNarrow class="swap-off"/>
+                <ArrowDownNarrowWide class="swap-on" />
+                <ArrowUpWideNarrow class="swap-off" />
             </label>
             <details class="dropdown" bind:this={detailsSortFieldElement}>
                 <summary class="btn p-5"><ArrowDownWideNarrow /> {SortFields[sortField]}</summary>
@@ -94,10 +112,9 @@
             {/if}
         </div>
         <div class="join self-center">
-            <button class="join-item btn btn-active">1</button>
-            <button class="join-item btn">2</button>
-            <button class="join-item btn">3</button>
-            <button class="join-item btn">4</button>
+            {#if cursor}
+                <button class="join-item btn" onclick={nextPage}>Load More</button>
+            {/if}
         </div>
     </div>
 </div>

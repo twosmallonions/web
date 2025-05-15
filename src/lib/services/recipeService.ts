@@ -22,14 +22,10 @@ export async function getRecipe(collectionId: string, recipeId: string, options:
     return await doApiRequest(requestOptions);
 }
 
-export async function getRecipesForUser(sortField: string, sortOrder: string, cursor: string | null, limit: string | null, options: ApiRequestOptions): Promise<ApiResponse<RecipeLight[]>> {
-    let params = new URLSearchParams({field: sortField, order:sortOrder}) 
+export async function getRecipesForUser(sortField: string, sortOrder: string, cursor: string | null, limit: string, options: ApiRequestOptions): Promise<ApiResponse<RecipeLight>> {
+    let params = new URLSearchParams({field: sortField, order:sortOrder, limit}) 
     if (cursor) {
         params.set('cursor', cursor)
-    }
-
-    if (limit) {
-        params.set('limit', limit)
     }
 
     const requestOptions = {
