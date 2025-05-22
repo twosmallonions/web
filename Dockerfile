@@ -1,4 +1,4 @@
-FROM node:22-slim@sha256:42cf02458a7ebeef48cb0125efd4c60df1fcfba1b23c39b1148e924d4c285e17 AS base
+FROM node:22-slim@sha256:2f3571619daafc6b53232ebf2fcc0817c1e64795e92de317c1684a915d13f1a5 AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN npm install -g corepack@v0.31.0
