@@ -1,10 +1,11 @@
+import { API_BASE } from "$lib/services/base";
 import { json, type RequestHandler } from "@sveltejs/kit";
 
 export const GET: RequestHandler = async ({params, locals, fetch}) => {
     const assetId = params.asset_id;
     const collectionId = params.collection_id;
 
-    const res = await fetch(`/api/asset/${collectionId}/${assetId}`, {
+    const res = await fetch(API_BASE + `/api/asset/${collectionId}/${assetId}`, {
         headers: { authorization: `Bearer ${locals.session.accessToken}` }
     });
 

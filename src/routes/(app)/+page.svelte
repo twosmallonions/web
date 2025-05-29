@@ -50,9 +50,12 @@
     }
 
     async function nextPage() {
+        if (!cursor) {
+            return;
+        }
         let params = page.url.searchParams;
         params.set('cursor', cursor);
-        await goto(`?${params.toString()}`, { invalidateAll: true });
+        await goto(`?${params.toString()}`, { invalidateAll: true, noScroll: true });
         console.log(data.recipeProps)
         
         recipes.push(...data.recipeProps)

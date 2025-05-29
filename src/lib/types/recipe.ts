@@ -1,7 +1,8 @@
 import type { components } from './openapi';
 
 export type FullRecipe = components['schemas']['RecipeFull']
-export type RecipeLight = components['schemas']['ListResponse_RecipeLight_']
+export type RecipeLight = components['schemas']['RecipeLight']
+export type GetRecipesResponse = components['schemas']['ListResponse_RecipeLight_']
 export type RecipeCreate = components['schemas']['RecipeCreate']
 export type RecipeImport = components['schemas']['ImportRecipe']
 export type RecipeUpdate = components['schemas']['RecipeUpdate']

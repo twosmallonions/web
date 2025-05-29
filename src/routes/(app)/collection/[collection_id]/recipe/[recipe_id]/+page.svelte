@@ -122,7 +122,7 @@
 <div>
     <div class="flex max-w-[120rem] flex-col gap-3">
         <div class="flex flex-col md:flex-row gap-5">
-            <div class="flex-5/12">
+            <div class="flex-5/12 relative">
                 {@render image()}
             </div>
             <div class="flex-7/12">{@render metadata()}</div>
@@ -173,7 +173,7 @@
     {/if}
 
     {#if editMode}
-        <div class="absolute right-1 bottom-1 flex flex-row gap-2">
+        <div class="absolute right-1 bottom-2 flex flex-row gap-2">
             <button
                 class="btn btn-circle btn-accent"
                 aria-label="Upload Recipe Image"
