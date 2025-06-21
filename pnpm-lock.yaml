@@ -13,7 +13,7 @@ importers:
         version: 6.0.11
       openid-client:
         specifier: ^6.4.2
-        version: 6.5.0
+        version: 6.6.1
       pg:
         specifier: ^8.15.6
         version: 8.16.0
@@ -1530,8 +1530,8 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  oauth4webapi@3.5.1:
-    resolution: {integrity: sha512-txg/jZQwcbaF7PMJgY7aoxc9QuCxHVFMiEkDIJ60DwDz3PbtXPQnrzo+3X4IRYGChIwWLabRBRpf1k9hO9+xrQ==}
+  oauth4webapi@3.5.3:
+    resolution: {integrity: sha512-2bnHosmBLAQpXNBLOvaJMyMkr4Yya5ohE5Q9jqyxiN+aa7GFCzvDN1RRRMrp0NkfqRR2MTaQNkcSUCCjILD9oQ==}
 
   object-inspect@1.13.2:
     resolution: {integrity: sha512-IRZSRuzJiynemAXPYtPe5BoI/RESNYR7TYm50MC5Mqbd3Jmw5y790sErYw3V6SryFJD64b74qQQs9wn5Bg/k3g==}
@@ -1557,8 +1557,8 @@ packages:
     resolution: {integrity: sha512-yBYjY9QX2hnRmZHAjG/f13MzmBzxzYgQhFrke06TTyKY5zSTEqkOeukBzIdVA3j3ulu8Qa3MbVFShV7T2RmGtQ==}
     engines: {node: '>= 0.4'}
 
-  openid-client@6.5.0:
-    resolution: {integrity: sha512-fAfYaTnOYE2kQCqEJGX9KDObW2aw7IQy4jWpU/+3D3WoCFLbix5Hg6qIPQ6Js9r7f8jDUmsnnguRNCSw4wU/IQ==}
+  openid-client@6.6.1:
+    resolution: {integrity: sha512-GmqoICGMI3IyFFjhvXxad8of4QWk2D0tm4vdJkldGm9nw7J3p1f7LPLWgGeFuKuw8HjDVe8Dd8QLGBe0NFvSSg==}
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -3558,7 +3558,7 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  oauth4webapi@3.5.1: {}
+  oauth4webapi@3.5.3: {}
 
   object-inspect@1.13.2: {}
 
@@ -3590,10 +3590,10 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.0.0
 
-  openid-client@6.5.0:
+  openid-client@6.6.1:
     dependencies:
       jose: 6.0.11
-      oauth4webapi: 3.5.1
+      oauth4webapi: 3.5.3
 
   optionator@0.9.4:
     dependencies:
